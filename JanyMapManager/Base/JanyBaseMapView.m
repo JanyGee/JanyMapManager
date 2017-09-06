@@ -28,6 +28,20 @@
     return self;
 }
 
+- (instancetype)initWithFrame:(CGRect)frame withMapDisplayType:(MapDisplayType)type
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        
+    }
+    return self;
+}
+
+- (void)setMapDisplayType:(MapDisplayType)type
+{
+
+}
+
 - (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)Coordinate2D
 {
 

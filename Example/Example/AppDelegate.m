@@ -7,8 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>
+#import <GoogleMaps/GMSServices.h>
 
-@interface AppDelegate ()
+@interface AppDelegate ()<BMKGeneralDelegate>
 
 @end
 
@@ -17,6 +19,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [GMSServices provideAPIKey:@"AIzaSyAhpQQLJ9iV81-Xj8yZKgrOnvb1qztt9fQ"];
+    [[[BMKMapManager alloc]init] start:@"CBZVxxBeXumgFPjWQljnFcCGaZdp5EKH" generalDelegate:self];
+    
     return YES;
 }
 

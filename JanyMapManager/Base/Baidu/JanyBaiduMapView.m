@@ -13,8 +13,8 @@
 #import <BaiduMapAPI_Location/BMKLocationService.h>
 #import <BaiduMapAPI_Utils/BMKGeometry.h>
 
-@interface JanyBaseMapView ()
-
+@interface JanyBaiduMapView ()<BMKMapViewDelegate,BMKLocationServiceDelegate>
+@property (nonatomic, strong)BMKMapView *myMap;
 @end
 
 @implementation JanyBaiduMapView
@@ -23,7 +23,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        [self addSubview:self.myMap];
     }
     return self;
 }
@@ -32,9 +32,32 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        
+        [self addSubview:self.myMap];
     }
     return self;
 }
 
+- (instancetype)initWithFrame:(CGRect)frame withMapDisplayType:(MapDisplayType)type
+{
+    self = [super initWithFrame:frame withMapDisplayType:type];
+    if (self) {
+        [self addSubview:self.myMap];
+    }
+    return self;
+}
+
+#pragma mark ============================== setupUI ==============================
+- (BMKMapView *)myMap
+{
+    if (!_myMap) {
+        
+        _myMap = [[BMKMapView alloc]initWithFrame:self.bounds];
+        [_myMap setMapType:BMKMapTypeStandard];
+        [_myMap setZoomLevel:15.f];
+        [_myMap setDelegate:self];
+        
+    }
+    
+    return _myMap;
+}
 @end

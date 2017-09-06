@@ -19,11 +19,13 @@ typedef void (^ReverseSuccess)(id address);
 typedef void (^ReverseFail)(id state);
 
 @interface JanyBaseMapView : UIView
-
+@property (nonatomic, assign) MapDisplayType *mapDispalyType;
 #pragma mark ============================== 初始化 ==============================
 - (instancetype)initWithFrame:(CGRect)frame;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder;
+- (instancetype)initWithFrame:(CGRect)frame withMapDisplayType:(MapDisplayType)type;
 
+- (void)setMapDisplayType:(MapDisplayType)type;
 #pragma mark ============================== 定位操作 ==============================
 /**
  在地图上定位一个位置
