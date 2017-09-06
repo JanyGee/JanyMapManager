@@ -1,0 +1,19 @@
+PODS:
+  - BaiduMapKit (3.4.0)
+  - GoogleMaps (2.4.0):
+    - GoogleMaps/Maps (= 2.4.0)
+  - GoogleMaps/Base (2.4.0)
+  - GoogleMaps/Maps (2.4.0):
+    - GoogleMaps/Base
+
+DEPENDENCIES:
+  - BaiduMapKit
+  - GoogleMaps
+
+SPEC CHECKSUMS:
+  BaiduMapKit: 0a5e5e0b1e3fd8dc5aceb40ab9b89e52e1d13df9
+  GoogleMaps: 8436ab5d1c25e36915b2f7416d0c8e3fa2e76c61
+
+PODFILE CHECKSUM: 0c47f8104212b811a06f89006a86f1f85122802b
+
+COCOAPODS: 1.3.1

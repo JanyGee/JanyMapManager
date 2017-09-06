@@ -14,6 +14,17 @@
 		317147AB1F5FE349001ED7EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 317147AA1F5FE349001ED7EB /* Assets.xcassets */; };
 		317147AE1F5FE349001ED7EB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 317147AC1F5FE349001ED7EB /* LaunchScreen.storyboard */; };
 		317147B91F5FE34A001ED7EB /* ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 317147B81F5FE34A001ED7EB /* ExampleTests.m */; };
+		317147CD1F5FE5B6001ED7EB /* JanyMapManager.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 317147CA1F5FE5B6001ED7EB /* JanyMapManager.podspec */; };
+		317147CE1F5FE5B6001ED7EB /* JanyMapManager.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 317147CA1F5FE5B6001ED7EB /* JanyMapManager.podspec */; };
+		317147CF1F5FE5B6001ED7EB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 317147CB1F5FE5B6001ED7EB /* LICENSE */; };
+		317147D01F5FE5B6001ED7EB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 317147CB1F5FE5B6001ED7EB /* LICENSE */; };
+		317147D11F5FE5B6001ED7EB /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 317147CC1F5FE5B6001ED7EB /* README.md */; };
+		317147D21F5FE5B6001ED7EB /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 317147CC1F5FE5B6001ED7EB /* README.md */; };
+		317147D51F5FE82B001ED7EB /* JanyBaseMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 317147D41F5FE82B001ED7EB /* JanyBaseMapView.m */; };
+		317147D81F5FE83F001ED7EB /* JanyBaiduMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 317147D71F5FE83F001ED7EB /* JanyBaiduMapView.m */; };
+		317147DB1F5FE84B001ED7EB /* JanyGoogleMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 317147DA1F5FE84B001ED7EB /* JanyGoogleMapView.m */; };
+		317147DE1F5FE851001ED7EB /* JanyMAMapMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 317147DD1F5FE850001ED7EB /* JanyMAMapMapView.m */; };
+		7C3E5A714D38FE148FE7E8EC /* libPods-Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5710FD652FCDB7447334B7 /* libPods-Example.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C01A434AD42BB70913B8682 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		3171479B1F5FE349001ED7EB /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3171479F1F5FE349001ED7EB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		317147A11F5FE349001ED7EB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -40,6 +52,19 @@
 		317147B41F5FE34A001ED7EB /* ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		317147B81F5FE34A001ED7EB /* ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleTests.m; sourceTree = "<group>"; };
 		317147BA1F5FE34A001ED7EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		317147CA1F5FE5B6001ED7EB /* JanyMapManager.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = JanyMapManager.podspec; path = ../JanyMapManager.podspec; sourceTree = "<group>"; };
+		317147CB1F5FE5B6001ED7EB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		317147CC1F5FE5B6001ED7EB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		317147D31F5FE82B001ED7EB /* JanyBaseMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JanyBaseMapView.h; sourceTree = "<group>"; };
+		317147D41F5FE82B001ED7EB /* JanyBaseMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JanyBaseMapView.m; sourceTree = "<group>"; };
+		317147D61F5FE83F001ED7EB /* JanyBaiduMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JanyBaiduMapView.h; sourceTree = "<group>"; };
+		317147D71F5FE83F001ED7EB /* JanyBaiduMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JanyBaiduMapView.m; sourceTree = "<group>"; };
+		317147D91F5FE84B001ED7EB /* JanyGoogleMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JanyGoogleMapView.h; sourceTree = "<group>"; };
+		317147DA1F5FE84B001ED7EB /* JanyGoogleMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JanyGoogleMapView.m; sourceTree = "<group>"; };
+		317147DC1F5FE850001ED7EB /* JanyMAMapMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JanyMAMapMapView.h; sourceTree = "<group>"; };
+		317147DD1F5FE850001ED7EB /* JanyMAMapMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JanyMAMapMapView.m; sourceTree = "<group>"; };
+		6A5710FD652FCDB7447334B7 /* libPods-Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		933CB4C5C5CBF9CF6838CE75 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C3E5A714D38FE148FE7E8EC /* libPods-Example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,9 +89,12 @@
 		317147921F5FE349001ED7EB = {
 			isa = PBXGroup;
 			children = (
+				317147C91F5FE59D001ED7EB /* Podspec Metadata */,
 				3171479D1F5FE349001ED7EB /* Example */,
 				317147B71F5FE34A001ED7EB /* ExampleTests */,
 				3171479C1F5FE349001ED7EB /* Products */,
+				53028841E145E652FD92383F /* Pods */,
+				CC2333D380B22C9428EA44BC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,6 +153,8 @@
 		317147C41F5FE398001ED7EB /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				317147D31F5FE82B001ED7EB /* JanyBaseMapView.h */,
+				317147D41F5FE82B001ED7EB /* JanyBaseMapView.m */,
 				317147C51F5FE398001ED7EB /* Baidu */,
 				317147C61F5FE398001ED7EB /* Google */,
 				317147C71F5FE398001ED7EB /* MAMap */,
@@ -135,6 +166,8 @@
 		317147C51F5FE398001ED7EB /* Baidu */ = {
 			isa = PBXGroup;
 			children = (
+				317147D61F5FE83F001ED7EB /* JanyBaiduMapView.h */,
+				317147D71F5FE83F001ED7EB /* JanyBaiduMapView.m */,
 			);
 			path = Baidu;
 			sourceTree = "<group>";
@@ -142,6 +175,8 @@
 		317147C61F5FE398001ED7EB /* Google */ = {
 			isa = PBXGroup;
 			children = (
+				317147D91F5FE84B001ED7EB /* JanyGoogleMapView.h */,
+				317147DA1F5FE84B001ED7EB /* JanyGoogleMapView.m */,
 			);
 			path = Google;
 			sourceTree = "<group>";
@@ -149,6 +184,8 @@
 		317147C71F5FE398001ED7EB /* MAMap */ = {
 			isa = PBXGroup;
 			children = (
+				317147DC1F5FE850001ED7EB /* JanyMAMapMapView.h */,
+				317147DD1F5FE850001ED7EB /* JanyMAMapMapView.m */,
 			);
 			path = MAMap;
 			sourceTree = "<group>";
@@ -160,6 +197,33 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
+		317147C91F5FE59D001ED7EB /* Podspec Metadata */ = {
+			isa = PBXGroup;
+			children = (
+				317147CA1F5FE5B6001ED7EB /* JanyMapManager.podspec */,
+				317147CB1F5FE5B6001ED7EB /* LICENSE */,
+				317147CC1F5FE5B6001ED7EB /* README.md */,
+			);
+			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		53028841E145E652FD92383F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				933CB4C5C5CBF9CF6838CE75 /* Pods-Example.debug.xcconfig */,
+				2C01A434AD42BB70913B8682 /* Pods-Example.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		CC2333D380B22C9428EA44BC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6A5710FD652FCDB7447334B7 /* libPods-Example.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -167,9 +231,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 317147BD1F5FE34A001ED7EB /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
+				624A12151E14884CAB9B171B /* [CP] Check Pods Manifest.lock */,
 				317147971F5FE349001ED7EB /* Sources */,
 				317147981F5FE349001ED7EB /* Frameworks */,
 				317147991F5FE349001ED7EB /* Resources */,
+				A7B08DD65F21A6C81F0115E0 /* [CP] Embed Pods Frameworks */,
+				39F81871D14FEEF94367E702 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -245,8 +312,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				317147AE1F5FE349001ED7EB /* LaunchScreen.storyboard in Resources */,
+				317147CD1F5FE5B6001ED7EB /* JanyMapManager.podspec in Resources */,
 				317147AB1F5FE349001ED7EB /* Assets.xcassets in Resources */,
 				317147A91F5FE349001ED7EB /* Main.storyboard in Resources */,
+				317147CF1F5FE5B6001ED7EB /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,10 +323,67 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				317147D01F5FE5B6001ED7EB /* LICENSE in Resources */,
+				317147CE1F5FE5B6001ED7EB /* JanyMapManager.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		39F81871D14FEEF94367E702 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Example/Pods-Example-resources.sh",
+				"${PODS_ROOT}/BaiduMapKit/BaiduMapKit/BaiduMapAPI_Map.framework/Resources/mapapi.bundle",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Example/Pods-Example-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		624A12151E14884CAB9B171B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A7B08DD65F21A6C81F0115E0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		317147971F5FE349001ED7EB /* Sources */ = {
@@ -265,8 +391,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				317147A61F5FE349001ED7EB /* ViewController.m in Sources */,
+				317147D81F5FE83F001ED7EB /* JanyBaiduMapView.m in Sources */,
 				317147A31F5FE349001ED7EB /* AppDelegate.m in Sources */,
+				317147DB1F5FE84B001ED7EB /* JanyGoogleMapView.m in Sources */,
+				317147DE1F5FE851001ED7EB /* JanyMAMapMapView.m in Sources */,
+				317147D11F5FE5B6001ED7EB /* README.md in Sources */,
 				317147A01F5FE349001ED7EB /* main.m in Sources */,
+				317147D51F5FE82B001ED7EB /* JanyBaseMapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				317147D21F5FE5B6001ED7EB /* README.md in Sources */,
 				317147B91F5FE34A001ED7EB /* ExampleTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -398,6 +530,7 @@
 		};
 		317147BE1F5FE34A001ED7EB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 933CB4C5C5CBF9CF6838CE75 /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = W74YV9GZDZ;
@@ -411,6 +544,7 @@
 		};
 		317147BF1F5FE34A001ED7EB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C01A434AD42BB70913B8682 /* Pods-Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = W74YV9GZDZ;
@@ -467,6 +601,7 @@
 				317147BF1F5FE34A001ED7EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		317147C01F5FE34A001ED7EB /* Build configuration list for PBXNativeTarget "ExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -475,6 +610,7 @@
 				317147C21F5FE34A001ED7EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
