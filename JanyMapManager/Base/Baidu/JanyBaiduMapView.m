@@ -52,7 +52,6 @@
     if (!_myMap) {
         
         _myMap = [[BMKMapView alloc]initWithFrame:self.bounds];
-        [_myMap setMapType:BMKMapTypeStandard];
         [_myMap setZoomLevel:15.f];
         [_myMap setDelegate:self];
         
@@ -60,4 +59,25 @@
     
     return _myMap;
 }
+
+- (void)setMapDispalyType:(MapDisplayType)mapDispalyType
+{
+    switch (mapDispalyType) {
+        case MapNormal:
+            [_myMap setMapType:BMKMapTypeStandard];
+            [_myMap setOverlooking:0.f];
+            break;
+        case MapSatellite:
+            [_myMap setMapType:BMKMapTypeSatellite];
+            [_myMap setOverlooking:0.f];
+            break;
+        case Map3D:
+            [_myMap setMapType:BMKMapTypeStandard];
+            [_myMap setZoomLevel:50.f];
+            break;
+        default:
+            break;
+    }
+}
+
 @end

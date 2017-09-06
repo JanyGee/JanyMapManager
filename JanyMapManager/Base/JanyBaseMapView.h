@@ -19,7 +19,7 @@ typedef void (^ReverseSuccess)(id address);
 typedef void (^ReverseFail)(id state);
 
 @interface JanyBaseMapView : UIView
-@property (nonatomic, assign) MapDisplayType *mapDispalyType;
+@property (nonatomic, assign) MapDisplayType mapDispalyType;
 #pragma mark ============================== 初始化 ==============================
 - (instancetype)initWithFrame:(CGRect)frame;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder;
