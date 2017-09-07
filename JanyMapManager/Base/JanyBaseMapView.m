@@ -28,13 +28,14 @@
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame withMapDisplayType:(MapDisplayType)type
+- (void)startLocationSuccess:(void(^)(void))success fail:(void(^)(NSError *error))fail
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        
-    }
-    return self;
+
+}
+
+- (void)stopLocation
+{
+
 }
 
 - (void)setMapDisplayType:(MapDisplayType)type
@@ -42,32 +43,32 @@
 
 }
 
-- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)Coordinate2D
+- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D Coordinate2DType:(Coordinate2DType)llType
 {
 
 }
 
-- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)Coordinate2D annotationImage:(UIImage *)annotationImage
+- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D Coordinate2DType:(Coordinate2DType)llType annotationImage:(UIImage *)annotationImage
 {
 
 }
 
-- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)Coordinate2D success:(ReverseSuccess)success fail:(ReverseFail)fail
+- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D Coordinate2DType:(Coordinate2DType)llType success:(ReverseSuccess)success fail:(ReverseFail)fail
 {
 
 }
 
-- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)Coordinate2D annotationImage:(UIImage *)annotationImage success:(ReverseSuccess)success fail:(ReverseFail)fail
+- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D Coordinate2DType:(Coordinate2DType)llType annotationImage:(UIImage *)annotationImage success:(ReverseSuccess)success fail:(ReverseFail)fail
 {
 
 }
 
-- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)Coordinate2D annotationImage:(UIImage *)annotationImage annotationInfor:(NSObject *)infor
+- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D Coordinate2DType:(Coordinate2DType)llType annotationImage:(UIImage *)annotationImage annotationInfor:(NSObject *)infor
 {
 
 }
 
-- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)Coordinate2D annotationImage:(UIImage *)annotationImage annotationInfor:(NSObject *)infor success:(ReverseSuccess)success fail:(ReverseFail)fail
+- (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D Coordinate2DType:(Coordinate2DType)llType annotationImage:(UIImage *)annotationImage annotationInfor:(NSObject *)infor success:(ReverseSuccess)success fail:(ReverseFail)fail
 {
 
 }

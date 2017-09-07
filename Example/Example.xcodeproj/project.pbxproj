@@ -24,6 +24,11 @@
 		317147D81F5FE83F001ED7EB /* JanyBaiduMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 317147D71F5FE83F001ED7EB /* JanyBaiduMapView.m */; };
 		317147DB1F5FE84B001ED7EB /* JanyGoogleMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 317147DA1F5FE84B001ED7EB /* JanyGoogleMapView.m */; };
 		317147DE1F5FE851001ED7EB /* JanyMAMapMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 317147DD1F5FE850001ED7EB /* JanyMAMapMapView.m */; };
+		317B8DC81F60D3460069BEA1 /* UserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DC71F60D3460069BEA1 /* UserLocation.m */; };
+		317B8DCE1F6118B70069BEA1 /* JZLocationConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DCD1F6118B70069BEA1 /* JZLocationConverter.m */; };
+		317B8DD11F61260A0069BEA1 /* JanyGeoCodeSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DD01F61260A0069BEA1 /* JanyGeoCodeSearch.m */; };
+		317B8DD41F6137D10069BEA1 /* PointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DD31F6137D10069BEA1 /* PointAnnotation.m */; };
+		317B8DD61F6142C00069BEA1 /* sportarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 317B8DD51F6142C00069BEA1 /* sportarrow.png */; };
 		7C3E5A714D38FE148FE7E8EC /* libPods-Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5710FD652FCDB7447334B7 /* libPods-Example.a */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +68,15 @@
 		317147DA1F5FE84B001ED7EB /* JanyGoogleMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JanyGoogleMapView.m; sourceTree = "<group>"; };
 		317147DC1F5FE850001ED7EB /* JanyMAMapMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JanyMAMapMapView.h; sourceTree = "<group>"; };
 		317147DD1F5FE850001ED7EB /* JanyMAMapMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JanyMAMapMapView.m; sourceTree = "<group>"; };
+		317B8DC61F60D3460069BEA1 /* UserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLocation.h; sourceTree = "<group>"; };
+		317B8DC71F60D3460069BEA1 /* UserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserLocation.m; sourceTree = "<group>"; };
+		317B8DCC1F6118B70069BEA1 /* JZLocationConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JZLocationConverter.h; sourceTree = "<group>"; };
+		317B8DCD1F6118B70069BEA1 /* JZLocationConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JZLocationConverter.m; sourceTree = "<group>"; };
+		317B8DCF1F61260A0069BEA1 /* JanyGeoCodeSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JanyGeoCodeSearch.h; sourceTree = "<group>"; };
+		317B8DD01F61260A0069BEA1 /* JanyGeoCodeSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JanyGeoCodeSearch.m; sourceTree = "<group>"; };
+		317B8DD21F6137D10069BEA1 /* PointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAnnotation.h; sourceTree = "<group>"; };
+		317B8DD31F6137D10069BEA1 /* PointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointAnnotation.m; sourceTree = "<group>"; };
+		317B8DD51F6142C00069BEA1 /* sportarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sportarrow.png; sourceTree = "<group>"; };
 		6A5710FD652FCDB7447334B7 /* libPods-Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		933CB4C5C5CBF9CF6838CE75 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +141,7 @@
 		3171479E1F5FE349001ED7EB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				317B8DD51F6142C00069BEA1 /* sportarrow.png */,
 				3171479F1F5FE349001ED7EB /* main.m */,
 			);
 			name = "Supporting Files";
@@ -168,6 +183,12 @@
 			children = (
 				317147D61F5FE83F001ED7EB /* JanyBaiduMapView.h */,
 				317147D71F5FE83F001ED7EB /* JanyBaiduMapView.m */,
+				317B8DC61F60D3460069BEA1 /* UserLocation.h */,
+				317B8DC71F60D3460069BEA1 /* UserLocation.m */,
+				317B8DCF1F61260A0069BEA1 /* JanyGeoCodeSearch.h */,
+				317B8DD01F61260A0069BEA1 /* JanyGeoCodeSearch.m */,
+				317B8DD21F6137D10069BEA1 /* PointAnnotation.h */,
+				317B8DD31F6137D10069BEA1 /* PointAnnotation.m */,
 			);
 			path = Baidu;
 			sourceTree = "<group>";
@@ -193,6 +214,8 @@
 		317147C81F5FE398001ED7EB /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				317B8DCC1F6118B70069BEA1 /* JZLocationConverter.h */,
+				317B8DCD1F6118B70069BEA1 /* JZLocationConverter.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -311,6 +334,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				317B8DD61F6142C00069BEA1 /* sportarrow.png in Resources */,
 				317147AE1F5FE349001ED7EB /* LaunchScreen.storyboard in Resources */,
 				317147CD1F5FE5B6001ED7EB /* JanyMapManager.podspec in Resources */,
 				317147AB1F5FE349001ED7EB /* Assets.xcassets in Resources */,
@@ -390,8 +414,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				317B8DD11F61260A0069BEA1 /* JanyGeoCodeSearch.m in Sources */,
 				317147A61F5FE349001ED7EB /* ViewController.m in Sources */,
 				317147D81F5FE83F001ED7EB /* JanyBaiduMapView.m in Sources */,
+				317B8DC81F60D3460069BEA1 /* UserLocation.m in Sources */,
+				317B8DCE1F6118B70069BEA1 /* JZLocationConverter.m in Sources */,
+				317B8DD41F6137D10069BEA1 /* PointAnnotation.m in Sources */,
 				317147A31F5FE349001ED7EB /* AppDelegate.m in Sources */,
 				317147DB1F5FE84B001ED7EB /* JanyGoogleMapView.m in Sources */,
 				317147DE1F5FE851001ED7EB /* JanyMAMapMapView.m in Sources */,
