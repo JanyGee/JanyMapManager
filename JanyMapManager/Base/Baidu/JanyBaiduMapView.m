@@ -104,17 +104,19 @@
 //根据anntation生成对应的View
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation
 {
-    if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
+    if ([annotation isKindOfClass:[PointAnnotation class]]) {
         NSString *AnnotationViewID = @"renameMark";
         BMKPinAnnotationView *annotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationViewID];
         if (annotationView == nil) {
             annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
-
-            // 设置可拖拽
-            annotationView.draggable = YES;
-            annotationView.pinColor = BMKPinAnnotationColorRed;
-            // 从天上掉下效果
+            
+            if (_dvImage) {
+                annotationView.image = _dvImage;
+            }else{
+                annotationView.pinColor = BMKPinAnnotationColorRed;
+            }
             annotationView.animatesDrop = YES;
+            annotationView.draggable = YES;
         }
         return annotationView;
     }

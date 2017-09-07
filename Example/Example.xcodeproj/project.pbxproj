@@ -29,6 +29,9 @@
 		317B8DD11F61260A0069BEA1 /* JanyGeoCodeSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DD01F61260A0069BEA1 /* JanyGeoCodeSearch.m */; };
 		317B8DD41F6137D10069BEA1 /* PointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DD31F6137D10069BEA1 /* PointAnnotation.m */; };
 		317B8DD61F6142C00069BEA1 /* sportarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 317B8DD51F6142C00069BEA1 /* sportarrow.png */; };
+		317B8DDA1F614C040069BEA1 /* poi_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 317B8DD71F614C040069BEA1 /* poi_1.png */; };
+		317B8DDB1F614C040069BEA1 /* poi_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 317B8DD81F614C040069BEA1 /* poi_2.png */; };
+		317B8DDC1F614C040069BEA1 /* poi_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 317B8DD91F614C040069BEA1 /* poi_3.png */; };
 		7C3E5A714D38FE148FE7E8EC /* libPods-Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5710FD652FCDB7447334B7 /* libPods-Example.a */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +80,9 @@
 		317B8DD21F6137D10069BEA1 /* PointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAnnotation.h; sourceTree = "<group>"; };
 		317B8DD31F6137D10069BEA1 /* PointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointAnnotation.m; sourceTree = "<group>"; };
 		317B8DD51F6142C00069BEA1 /* sportarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sportarrow.png; sourceTree = "<group>"; };
+		317B8DD71F614C040069BEA1 /* poi_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poi_1.png; sourceTree = "<group>"; };
+		317B8DD81F614C040069BEA1 /* poi_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poi_2.png; sourceTree = "<group>"; };
+		317B8DD91F614C040069BEA1 /* poi_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poi_3.png; sourceTree = "<group>"; };
 		6A5710FD652FCDB7447334B7 /* libPods-Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		933CB4C5C5CBF9CF6838CE75 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,6 +147,9 @@
 		3171479E1F5FE349001ED7EB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				317B8DD71F614C040069BEA1 /* poi_1.png */,
+				317B8DD81F614C040069BEA1 /* poi_2.png */,
+				317B8DD91F614C040069BEA1 /* poi_3.png */,
 				317B8DD51F6142C00069BEA1 /* sportarrow.png */,
 				3171479F1F5FE349001ED7EB /* main.m */,
 			);
@@ -336,8 +345,11 @@
 			files = (
 				317B8DD61F6142C00069BEA1 /* sportarrow.png in Resources */,
 				317147AE1F5FE349001ED7EB /* LaunchScreen.storyboard in Resources */,
+				317B8DDA1F614C040069BEA1 /* poi_1.png in Resources */,
 				317147CD1F5FE5B6001ED7EB /* JanyMapManager.podspec in Resources */,
 				317147AB1F5FE349001ED7EB /* Assets.xcassets in Resources */,
+				317B8DDC1F614C040069BEA1 /* poi_3.png in Resources */,
+				317B8DDB1F614C040069BEA1 /* poi_2.png in Resources */,
 				317147A91F5FE349001ED7EB /* Main.storyboard in Resources */,
 				317147CF1F5FE5B6001ED7EB /* LICENSE in Resources */,
 			);
