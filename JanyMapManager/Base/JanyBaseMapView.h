@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>
 #import "JZLocationConverter.h"
+#import "Model.h"
 
 typedef enum : NSUInteger {//常规地图、卫星地图、3D地图
     MapNormal,
@@ -126,17 +127,19 @@ typedef void (^ReverseFail)(void);
  绘制轨迹
 
  @param dataArr 轨迹数据，需要大于两条数据
+ @param flag 是否显示轨迹上的大头针，yes添加
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag;
 
 /**
  绘制轨迹
 
  @param dataArr 轨迹数据，需要大于两条数据
+ @param flag 是否显示轨迹上的大头针，yes添加
  @param width 轨迹线的宽度
  @param lineColor 轨迹的颜色
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
 
 #pragma mark ============================== 电子围栏 ==============================
 

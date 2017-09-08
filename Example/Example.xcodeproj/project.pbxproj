@@ -32,6 +32,9 @@
 		317B8DDA1F614C040069BEA1 /* poi_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 317B8DD71F614C040069BEA1 /* poi_1.png */; };
 		317B8DDB1F614C040069BEA1 /* poi_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 317B8DD81F614C040069BEA1 /* poi_2.png */; };
 		317B8DDC1F614C040069BEA1 /* poi_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 317B8DD91F614C040069BEA1 /* poi_3.png */; };
+		31AE802F1F6230D500531E54 /* PaopaoCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE802E1F6230D500531E54 /* PaopaoCustomView.m */; };
+		31AE80321F62675700531E54 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE80311F62675700531E54 /* Model.m */; };
+		31AE80351F627B5F00531E54 /* GuiJiAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE80341F627B5F00531E54 /* GuiJiAnnotation.m */; };
 		7C3E5A714D38FE148FE7E8EC /* libPods-Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5710FD652FCDB7447334B7 /* libPods-Example.a */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +86,12 @@
 		317B8DD71F614C040069BEA1 /* poi_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poi_1.png; sourceTree = "<group>"; };
 		317B8DD81F614C040069BEA1 /* poi_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poi_2.png; sourceTree = "<group>"; };
 		317B8DD91F614C040069BEA1 /* poi_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poi_3.png; sourceTree = "<group>"; };
+		31AE802D1F6230D500531E54 /* PaopaoCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaopaoCustomView.h; sourceTree = "<group>"; };
+		31AE802E1F6230D500531E54 /* PaopaoCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaopaoCustomView.m; sourceTree = "<group>"; };
+		31AE80301F62675700531E54 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		31AE80311F62675700531E54 /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
+		31AE80331F627B5F00531E54 /* GuiJiAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiJiAnnotation.h; sourceTree = "<group>"; };
+		31AE80341F627B5F00531E54 /* GuiJiAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuiJiAnnotation.m; sourceTree = "<group>"; };
 		6A5710FD652FCDB7447334B7 /* libPods-Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		933CB4C5C5CBF9CF6838CE75 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -135,6 +144,8 @@
 				317147A21F5FE349001ED7EB /* AppDelegate.m */,
 				317147A41F5FE349001ED7EB /* ViewController.h */,
 				317147A51F5FE349001ED7EB /* ViewController.m */,
+				31AE80301F62675700531E54 /* Model.h */,
+				31AE80311F62675700531E54 /* Model.m */,
 				317147A71F5FE349001ED7EB /* Main.storyboard */,
 				317147AA1F5FE349001ED7EB /* Assets.xcassets */,
 				317147AC1F5FE349001ED7EB /* LaunchScreen.storyboard */,
@@ -198,6 +209,10 @@
 				317B8DD01F61260A0069BEA1 /* JanyGeoCodeSearch.m */,
 				317B8DD21F6137D10069BEA1 /* PointAnnotation.h */,
 				317B8DD31F6137D10069BEA1 /* PointAnnotation.m */,
+				31AE80331F627B5F00531E54 /* GuiJiAnnotation.h */,
+				31AE80341F627B5F00531E54 /* GuiJiAnnotation.m */,
+				31AE802D1F6230D500531E54 /* PaopaoCustomView.h */,
+				31AE802E1F6230D500531E54 /* PaopaoCustomView.m */,
 			);
 			path = Baidu;
 			sourceTree = "<group>";
@@ -428,6 +443,7 @@
 			files = (
 				317B8DD11F61260A0069BEA1 /* JanyGeoCodeSearch.m in Sources */,
 				317147A61F5FE349001ED7EB /* ViewController.m in Sources */,
+				31AE80351F627B5F00531E54 /* GuiJiAnnotation.m in Sources */,
 				317147D81F5FE83F001ED7EB /* JanyBaiduMapView.m in Sources */,
 				317B8DC81F60D3460069BEA1 /* UserLocation.m in Sources */,
 				317B8DCE1F6118B70069BEA1 /* JZLocationConverter.m in Sources */,
@@ -437,6 +453,8 @@
 				317147DE1F5FE851001ED7EB /* JanyMAMapMapView.m in Sources */,
 				317147D11F5FE5B6001ED7EB /* README.md in Sources */,
 				317147A01F5FE349001ED7EB /* main.m in Sources */,
+				31AE80321F62675700531E54 /* Model.m in Sources */,
+				31AE802F1F6230D500531E54 /* PaopaoCustomView.m in Sources */,
 				317147D51F5FE82B001ED7EB /* JanyBaseMapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

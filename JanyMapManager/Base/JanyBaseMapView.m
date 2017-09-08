@@ -73,12 +73,12 @@
 
 }
 
-- (void)jany_pathMoveWithData:(NSArray *)dataArr
+- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag
 {
 
 }
 
-- (void)jany_pathMoveWithData:(NSArray *)dataArr lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
+- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
 {
 
 }

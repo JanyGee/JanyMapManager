@@ -13,18 +13,23 @@
 #import "UserLocation.h"
 #import "JanyGeoCodeSearch.h"
 #import "PointAnnotation.h"
+#import "GuiJiAnnotation.h"
+#import "PaopaoCustomView.h"
 
 @interface JanyBaiduMapView ()<BMKMapViewDelegate>
 {
     CLLocationCoordinate2D _dvCLLocation;//设备位置
     UIImage *_dvImage;//设备大头针图片
     NSObject *_dvInfor;//定位点相应气泡上的信息
-    
+    UIColor *_guijiLineColor;
+    CGFloat _guijiLineWidth;
 }
 @property (nonatomic, strong)BMKMapView *myMap;
 @property (nonatomic, strong)UserLocation *myPosition;
 @property (nonatomic, strong)JanyGeoCodeSearch *geoCodeSearch;
 @property (nonatomic, strong)PointAnnotation *pointAnnotation;
+@property (nonatomic, strong)PaopaoCustomView *dvPaopaoView;
+@property (nonatomic, strong)BMKPolyline *guijiLine;
 @end
 
 @implementation JanyBaiduMapView
@@ -34,6 +39,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _dvCLLocation = CLLocationCoordinate2DMake(11110, 111110);
+        
         [self addSubview:self.myMap];
     }
     return self;
@@ -44,6 +50,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         _dvCLLocation = CLLocationCoordinate2DMake(11110, 111110);
+
         [self addSubview:self.myMap];
     }
     return self;
@@ -53,7 +60,7 @@
 - (BMKMapView *)myMap
 {
     if (!_myMap) {
-        
+
         _myMap = [[BMKMapView alloc]initWithFrame:self.bounds];
         [_myMap setShowsUserLocation:YES];
         [_myMap setRotateEnabled:NO];
@@ -74,6 +81,22 @@
     return _pointAnnotation;
 }
 
+- (PaopaoCustomView *)dvPaopaoView
+{
+    if (!_dvPaopaoView) {
+        _dvPaopaoView = [[PaopaoCustomView alloc] initWithFrame:CGRectMake(0.f, 0.f, 200.f, 100.f)];
+    }
+    
+    return _dvPaopaoView;
+}
+
+- (BMKPolyline *)guijiLine
+{
+    if (!_guijiLine) {
+        _guijiLine = [[BMKPolyline alloc] init];
+    }
+    return _guijiLine;
+}
 #pragma mark ============================== 定位手机的当前位置 ==============================
 - (UserLocation *)myPosition
 {
@@ -101,6 +124,7 @@
         [mapView setOverlooking:-45.f];
     }
 }
+
 //根据anntation生成对应的View
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation
 {
@@ -115,6 +139,9 @@
             }else{
                 annotationView.pinColor = BMKPinAnnotationColorRed;
             }
+            
+            BMKActionPaopaoView *paopao=[[BMKActionPaopaoView alloc] initWithCustomView:self.dvPaopaoView];
+            annotationView.paopaoView = paopao;
             annotationView.animatesDrop = YES;
             annotationView.draggable = YES;
         }
@@ -122,6 +149,32 @@
     }
     return nil;
 }
+
+//根据overlay生成对应的View
+- (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id <BMKOverlay>)overlay
+{
+    if ([overlay isKindOfClass:[BMKPolyline class]]){
+        
+        BMKPolylineView* polylineView = [[BMKPolylineView alloc] initWithOverlay:overlay];
+        polylineView.strokeColor = _guijiLineColor;
+        polylineView.lineWidth = _guijiLineWidth;
+
+        return polylineView;
+    }
+    
+    return nil;
+}
+
+- (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
+{
+    if ([view.reuseIdentifier isEqualToString:@"renameMark"]) {
+        NSLog(@"I am renameMark.");
+    }
+    NSString *str = [NSString stringWithFormat:@"%d",arc4random()%10];
+    [self.dvPaopaoView setTitle:str];
+    NSLog(@"sdasdada");
+}
+
 #pragma mark ============================== 父类方法 ==============================
 - (void)setMapDispalyType:(MapDisplayType)mapDispalyType
 {
@@ -145,7 +198,7 @@
 
 - (void)startLocationSuccess:(void (^)(void))success fail:(void (^)(NSError *))fail
 {
-    __weak typeof (self)weakSelf = (self);
+    __weak typeof (self)weakSelf = self;
     [self.myPosition startLocationSuccess:^(CLLocationCoordinate2D ll) {
         success();
         
@@ -224,6 +277,50 @@
         } fail:^(BMKSearchErrorCode error) {
             fail();
         }];
+    }
+}
+
+#pragma mark ============================== 轨迹操作 ==============================
+
+- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag
+{
+    [self jany_pathMoveWithData:dataArr withAnnotation:flag lineWidth:2 lineColor:[UIColor redColor]];
+}
+
+- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
+{
+    /*
+     百度地图画轨迹不会出现卡顿现象
+     若果在轨迹点上一次添加的大头针的数量太多会造成卡顿现象，这样会影响体验感
+      |
+     \|/
+     解决这种情况：
+     此方法值调用一次，然后对数据进行分段处理，绘制完成之后再绘制下一组数据
+     */
+
+    _guijiLineWidth = width;
+    _guijiLineColor = lineColor;
+
+    if (flag) {//带大头针的轨迹
+        
+    }else{//不带大头针的轨迹
+        [self guijiNoAnnotation:dataArr];
+    }
+}
+
+- (void)guijiNoAnnotation:(NSArray *)arr
+{
+    CLLocationCoordinate2D coors[arr.count];
+    for (int i = 0; i < arr.count; i ++) {
+        
+        Model *model = arr[i];
+        CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(model.lat,model.lon);
+        coors[i] = LL;
+    }
+    
+    if ([self.guijiLine setPolylineWithCoordinates:coors count:arr.count]) {
+        [_myMap addOverlay: _guijiLine];
+        [self mapViewFitPolyLine:_guijiLine];
     }
 }
 
