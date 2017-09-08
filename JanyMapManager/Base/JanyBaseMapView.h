@@ -124,22 +124,23 @@ typedef void (^ReverseFail)(void);
  */
 
 /**
- 绘制轨迹
+ 绘制轨迹，设置起点图片和终点图片
 
  @param dataArr 轨迹数据，需要大于两条数据
- @param flag 是否显示轨迹上的大头针，yes添加
+ @param startImage 开始点图片
+ @param endImage 结束点图片
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage endImage:(UIImage *)endImage;
 
 /**
- 绘制轨迹
+ 绘制轨迹，设置起点图片和终点图片还有中间轨迹点的图片
 
  @param dataArr 轨迹数据，需要大于两条数据
  @param flag 是否显示轨迹上的大头针，yes添加
  @param width 轨迹线的宽度
  @param lineColor 轨迹的颜色
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
 
 #pragma mark ============================== 电子围栏 ==============================
 

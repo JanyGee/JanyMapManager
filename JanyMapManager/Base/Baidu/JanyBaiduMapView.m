@@ -23,6 +23,10 @@
     NSObject *_dvInfor;//定位点相应气泡上的信息
     UIColor *_guijiLineColor;
     CGFloat _guijiLineWidth;
+    
+    UIImage *_startImage;
+    UIImage *_endImage;
+    NSMutableArray *_coordinate2DArray;
 }
 @property (nonatomic, strong)BMKMapView *myMap;
 @property (nonatomic, strong)UserLocation *myPosition;
@@ -123,13 +127,18 @@
         //由于俯视角度变化和放大级别不能同时进行，所以这样操作
         [mapView setOverlooking:-45.f];
     }
+    
+    if (mapView.zoomLevel < 15) {
+        [mapView setOverlooking:0];
+    }
+    
 }
 
 //根据anntation生成对应的View
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation
 {
     if ([annotation isKindOfClass:[PointAnnotation class]]) {
-        NSString *AnnotationViewID = @"renameMark";
+        NSString *AnnotationViewID = @"deviceMark";
         BMKPinAnnotationView *annotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationViewID];
         if (annotationView == nil) {
             annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
@@ -147,6 +156,34 @@
         }
         return annotationView;
     }
+    
+    if ([annotation isKindOfClass:[GuiJiAnnotation class]]) {
+        NSString *AnnotationViewID = @"guijiMark";
+        BMKPinAnnotationView *annotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationViewID];
+        if (annotationView == nil) {
+            annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
+            
+            CLLocation *ll = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
+            NSLog(@"点%f----%d---%d",ll.coordinate.latitude,[_coordinate2DArray indexOfObject:ll],_coordinate2DArray.count);
+            if ([_coordinate2DArray indexOfObject:ll] == 0) {
+                NSLog(@"起点%f",ll.coordinate.latitude);
+                annotationView.pinColor = BMKPinAnnotationColorGreen;
+            }else if ([_coordinate2DArray indexOfObject:ll] == _coordinate2DArray.count - 1){
+                NSLog(@"终点");
+                annotationView.pinColor = BMKPinAnnotationColorRed;
+            }else{
+                NSLog(@"中间点");
+                annotationView.pinColor = BMKPinAnnotationColorPurple;
+            }
+            
+            BMKActionPaopaoView *paopao=[[BMKActionPaopaoView alloc] initWithCustomView:self.dvPaopaoView];
+            annotationView.paopaoView = paopao;
+            annotationView.animatesDrop = YES;
+            annotationView.draggable = YES;
+        }
+        return annotationView;
+    }
+    
     return nil;
 }
 
@@ -167,12 +204,17 @@
 
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
 {
-    if ([view.reuseIdentifier isEqualToString:@"renameMark"]) {
+    if ([view.reuseIdentifier isEqualToString:@"deviceMark"]) {
+        
         NSLog(@"I am renameMark.");
+        
+    }else if([view.reuseIdentifier isEqualToString:@"guijiMark"]){
+        
     }
+    
     NSString *str = [NSString stringWithFormat:@"%d",arc4random()%10];
     [self.dvPaopaoView setTitle:str];
-    NSLog(@"sdasdada");
+    NSLog(@"%f",view.annotation.coordinate);
 }
 
 #pragma mark ============================== 父类方法 ==============================
@@ -282,12 +324,12 @@
 
 #pragma mark ============================== 轨迹操作 ==============================
 
-- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag
+- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage endImage:(UIImage *)endImage
 {
-    [self jany_pathMoveWithData:dataArr withAnnotation:flag lineWidth:2 lineColor:[UIColor redColor]];
+    [self jany_pathMoveWithData:dataArr withAnnotation:NO startImage:nil endImage:nil lineWidth:4 lineColor:[UIColor redColor]];
 }
 
-- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
+- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag startImage:(UIImage *)startImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
 {
     /*
      百度地图画轨迹不会出现卡顿现象
@@ -297,26 +339,39 @@
      解决这种情况：
      此方法值调用一次，然后对数据进行分段处理，绘制完成之后再绘制下一组数据
      */
-
+    
+    _startImage = startImage;
+    _endImage = endImage;
     _guijiLineWidth = width;
     _guijiLineColor = lineColor;
 
     if (flag) {//带大头针的轨迹
         
-    }else{//不带大头针的轨迹
+    }else{//不带中间大头针的轨迹
         [self guijiNoAnnotation:dataArr];
     }
 }
 
 - (void)guijiNoAnnotation:(NSArray *)arr
 {
+    _coordinate2DArray = [NSMutableArray arrayWithCapacity:12];
+    NSMutableArray *arrAnnotation = [NSMutableArray array];
     CLLocationCoordinate2D coors[arr.count];
     for (int i = 0; i < arr.count; i ++) {
         
         Model *model = arr[i];
         CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(model.lat,model.lon);
         coors[i] = LL;
+        
+        CLLocation *objLL = [[CLLocation alloc] initWithLatitude:model.lat longitude:model.lon];
+        [_coordinate2DArray addObject:objLL];
+        
+        GuiJiAnnotation *annotation = [[GuiJiAnnotation alloc] init];
+        [annotation setCoordinate:LL];
+        [arrAnnotation addObject:annotation];
     }
+    
+    [_myMap addAnnotations:arrAnnotation];
     
     if ([self.guijiLine setPolylineWithCoordinates:coors count:arr.count]) {
         [_myMap addOverlay: _guijiLine];

@@ -40,6 +40,7 @@
     }];
     
     [self setUI];
+    
 }
 
 #pragma mark ============================== setupUI ==============================
@@ -134,7 +135,7 @@
             [arr addObject:model];
         }
         
-        [map jany_pathMoveWithData:arr withAnnotation:NO];
+        [map jany_pathMoveWithData:arr startImage:nil endImage:nil];
         
     }else{
 
@@ -166,7 +167,7 @@
             [arr addObject:model];
         }
         
-        [map jany_pathMoveWithData:arr withAnnotation:NO];
+        [map jany_pathMoveWithData:arr startImage:nil endImage:nil];
     }
 
 }
