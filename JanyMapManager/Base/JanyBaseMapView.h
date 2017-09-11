@@ -181,7 +181,7 @@ typedef void (^ReverseFail)(void);
  */
 - (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
 
-- (void)jany_pathMoveWithData:(NSArray *)dataArr;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr moveImage:(UIImage *)moveImage;
 #pragma mark ============================== 电子围栏 ==============================
 
 /**

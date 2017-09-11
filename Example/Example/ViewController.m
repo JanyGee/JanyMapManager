@@ -59,8 +59,50 @@
     [map addSubview:centerbtn];
     
     [centerbtn addTarget:self action:@selector(centerbtnclick) forControlEvents:UIControlEventTouchUpInside];
+    
+    UISlider *slide = [[UISlider alloc] initWithFrame:CGRectMake(40.f, 80.f, 300.f, 50.f)];
+    [slide setMinimumValue:0];
+    [slide setMaximumValue:1];
+    [map addSubview:slide];
+    
+    [slide addTarget:self action:@selector(slideChange:) forControlEvents:UIControlEventValueChanged];
 }
 
+- (void)slideChange:(UISlider *)slide
+{
+
+    CLLocationCoordinate2D coors[12];
+    coors[0] = CLLocationCoordinate2DMake(22.922789663576, 113.9482886037343);
+    coors[1] = CLLocationCoordinate2DMake(22.8108252350, 113.90489842423);
+    coors[2] = CLLocationCoordinate2DMake(22.7103014726, 113.90458044929);
+    coors[3] = CLLocationCoordinate2DMake(22.7107690193, 113.90400776584);
+    coors[4] = CLLocationCoordinate2DMake(22.57109077253, 113.90383739502);
+    coors[5] = CLLocationCoordinate2DMake(22.57126944089, 113.90343044001);
+    coors[6] = CLLocationCoordinate2DMake(22.57127047492, 113.90335423128);
+    coors[7] = CLLocationCoordinate2DMake(22.5713517857, 113.90323699237);
+    coors[8] = CLLocationCoordinate2DMake(22.57175734488, 113.90283532769);
+    coors[9] = CLLocationCoordinate2DMake(22.57145558947, 113.90262582616);
+    coors[10] = CLLocationCoordinate2DMake(22.53396860615, 113.90112740338);
+    coors[11] = CLLocationCoordinate2DMake(22.7440620437, 113.90014707411);
+    
+    int count = 12 * slide.value;
+    
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:12];
+    for (int i = 0; i < count; i ++) {
+        
+        Model *model = [[Model alloc] init];
+        model.lat = coors[i].latitude;
+        model.lon = coors[i].longitude;
+        model.title = [NSString stringWithFormat:@"%d",i];
+        
+        [arr addObject:model];
+    }
+    
+    NSLog(@"-----%d----%d",count,arr.count);
+    
+    [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"]];
+    
+}
 
 - (void)click{
     
