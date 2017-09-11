@@ -264,6 +264,10 @@
     }
 }
 
+- (void)mapView:(BMKMapView *)mapView didAddAnnotationViews:(NSArray *)views
+{
+    NSLog(@"=======%d",views.count);
+}
 #pragma mark ============================== 父类方法 ==============================
 - (void)setMapDispalyType:(MapDisplayType)mapDispalyType
 {
