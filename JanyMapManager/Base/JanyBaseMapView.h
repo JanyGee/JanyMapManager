@@ -181,6 +181,13 @@ typedef void (^ReverseFail)(void);
  */
 - (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
 
+
+/**
+ 类似贪食蛇的轨迹画法，针对新app的需求
+
+ @param dataArr 变化的数据，slider来控制
+ @param moveImage 蛇头图片
+ */
 - (void)jany_pathMoveWithData:(NSArray *)dataArr moveImage:(UIImage *)moveImage;
 #pragma mark ============================== 电子围栏 ==============================
 
