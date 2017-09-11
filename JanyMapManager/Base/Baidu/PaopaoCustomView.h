@@ -10,5 +10,4 @@
 
 @interface PaopaoCustomView : UIView
 - (void)setTitle:(NSString *)title;
-- (void)getLL:(NSDictionary *)dicLL;
 @end

@@ -109,7 +109,43 @@
     if (_flag) {
         
         _flag = NO;
-        CLLocationCoordinate2D coors[12];
+        CLLocationCoordinate2D coors[48];
+        coors[0] = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
+        coors[1] = CLLocationCoordinate2DMake(22.571082523507, 113.90489842423);
+        coors[2] = CLLocationCoordinate2DMake(22.571030147266, 113.90458044929);
+        coors[3] = CLLocationCoordinate2DMake(22.571076901093, 113.90400776584);
+        coors[4] = CLLocationCoordinate2DMake(22.571090775253, 113.90383739502);
+        coors[5] = CLLocationCoordinate2DMake(22.571269494089, 113.90343044001);
+        coors[6] = CLLocationCoordinate2DMake(22.571270547492, 113.90335423128);
+        coors[7] = CLLocationCoordinate2DMake(22.57135417857, 113.90323699237);
+        coors[8] = CLLocationCoordinate2DMake(22.571785734488, 113.90283532769);
+        coors[9] = CLLocationCoordinate2DMake(22.571845558947, 113.90262582616);
+        coors[10] = CLLocationCoordinate2DMake(22.573396860615, 113.90112740338);
+        coors[11] = CLLocationCoordinate2DMake(22.57440620437, 113.90014707411);
+        coors[0] = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
+        coors[1] = CLLocationCoordinate2DMake(22.571082523507, 113.90489842423);
+        coors[2] = CLLocationCoordinate2DMake(22.571030147266, 113.90458044929);
+        coors[3] = CLLocationCoordinate2DMake(22.571076901093, 113.90400776584);
+        coors[4] = CLLocationCoordinate2DMake(22.571090775253, 113.90383739502);
+        coors[5] = CLLocationCoordinate2DMake(22.571269494089, 113.90343044001);
+        coors[6] = CLLocationCoordinate2DMake(22.571270547492, 113.90335423128);
+        coors[7] = CLLocationCoordinate2DMake(22.57135417857, 113.90323699237);
+        coors[8] = CLLocationCoordinate2DMake(22.571785734488, 113.90283532769);
+        coors[9] = CLLocationCoordinate2DMake(22.571845558947, 113.90262582616);
+        coors[10] = CLLocationCoordinate2DMake(22.573396860615, 113.90112740338);
+        coors[11] = CLLocationCoordinate2DMake(22.57440620437, 113.90014707411);
+        coors[0] = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
+        coors[1] = CLLocationCoordinate2DMake(22.571082523507, 113.90489842423);
+        coors[2] = CLLocationCoordinate2DMake(22.571030147266, 113.90458044929);
+        coors[3] = CLLocationCoordinate2DMake(22.571076901093, 113.90400776584);
+        coors[4] = CLLocationCoordinate2DMake(22.571090775253, 113.90383739502);
+        coors[5] = CLLocationCoordinate2DMake(22.571269494089, 113.90343044001);
+        coors[6] = CLLocationCoordinate2DMake(22.571270547492, 113.90335423128);
+        coors[7] = CLLocationCoordinate2DMake(22.57135417857, 113.90323699237);
+        coors[8] = CLLocationCoordinate2DMake(22.571785734488, 113.90283532769);
+        coors[9] = CLLocationCoordinate2DMake(22.571845558947, 113.90262582616);
+        coors[10] = CLLocationCoordinate2DMake(22.573396860615, 113.90112740338);
+        coors[11] = CLLocationCoordinate2DMake(22.57440620437, 113.90014707411);
         coors[0] = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
         coors[1] = CLLocationCoordinate2DMake(22.571082523507, 113.90489842423);
         coors[2] = CLLocationCoordinate2DMake(22.571030147266, 113.90458044929);
@@ -125,7 +161,7 @@
         
         
         NSMutableArray *arr = [NSMutableArray arrayWithCapacity:12];
-        for (int i = 0; i < 12; i ++) {
+        for (int i = 0; i < 48; i ++) {
             
             Model *model = [[Model alloc] init];
             model.lat = coors[i].latitude;

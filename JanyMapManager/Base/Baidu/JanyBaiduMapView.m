@@ -410,7 +410,11 @@
     _gpsImage = nil;
     _lbsImage = nil;
 
-    [self guijiAnnotation:dataArr];
+    if (img) {
+        [self guijiAnnotation:dataArr];
+    }else{
+        [self guijiNoAnnotation:dataArr];
+    }
     
 }
 
@@ -426,7 +430,11 @@
     _guijiLineColor = lineColor;
     _guijiModelArray = [NSArray arrayWithArray:dataArr];
     
-    [self guijiAnnotation:dataArr];
+    if (wifiImgae || gpsImage || lbsImage) {
+        [self guijiAnnotation:dataArr];
+    }else{
+        [self guijiNoAnnotation:dataArr];
+    }
 }
 
 - (void)guijiNoAnnotation:(NSArray *)arr
@@ -450,6 +458,7 @@
         [annotation setCoordinate:LL];
         [_guijiAnnotationArray addObject:annotation];
     }
+    
     [_myMap addAnnotations:_guijiAnnotationArray];
     
     if ([self.guijiLine setPolylineWithCoordinates:coors count:arr.count]) {
