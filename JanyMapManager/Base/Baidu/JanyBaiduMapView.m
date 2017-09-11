@@ -26,14 +26,21 @@
     
     UIImage *_startImage;
     UIImage *_endImage;
+    UIImage *_middleImage;
+    UIImage *_wifiImage;
+    UIImage *_gpsImage;
+    UIImage *_lbsImage;
+    NSArray *_guijiModelArray;
     NSMutableArray *_coordinate2DArray;
+    NSMutableArray *_guijiAnnotationArray;
 }
 @property (nonatomic, strong)BMKMapView *myMap;
 @property (nonatomic, strong)UserLocation *myPosition;
 @property (nonatomic, strong)JanyGeoCodeSearch *geoCodeSearch;
 @property (nonatomic, strong)PointAnnotation *pointAnnotation;
-@property (nonatomic, strong)PaopaoCustomView *dvPaopaoView;
 @property (nonatomic, strong)BMKPolyline *guijiLine;
+@property (nonatomic, strong)BMKPinAnnotationView *pinView;
+@property (nonatomic, strong)PaopaoCustomView *locatePaopao;
 @end
 
 @implementation JanyBaiduMapView
@@ -43,7 +50,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _dvCLLocation = CLLocationCoordinate2DMake(11110, 111110);
-        
+        _guijiAnnotationArray = [NSMutableArray array];
         [self addSubview:self.myMap];
     }
     return self;
@@ -54,7 +61,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         _dvCLLocation = CLLocationCoordinate2DMake(11110, 111110);
-
+        _guijiAnnotationArray = [NSMutableArray array];
         [self addSubview:self.myMap];
     }
     return self;
@@ -85,21 +92,20 @@
     return _pointAnnotation;
 }
 
-- (PaopaoCustomView *)dvPaopaoView
-{
-    if (!_dvPaopaoView) {
-        _dvPaopaoView = [[PaopaoCustomView alloc] initWithFrame:CGRectMake(0.f, 0.f, 200.f, 100.f)];
-    }
-    
-    return _dvPaopaoView;
-}
-
 - (BMKPolyline *)guijiLine
 {
     if (!_guijiLine) {
         _guijiLine = [[BMKPolyline alloc] init];
     }
     return _guijiLine;
+}
+
+- (PaopaoCustomView *)locatePaopao
+{
+    if (!_locatePaopao) {
+        _locatePaopao = [[PaopaoCustomView alloc] initWithFrame:CGRectMake(0.f, 0.f, 200.f, 100)];
+    }
+    return _locatePaopao;
 }
 #pragma mark ============================== 定位手机的当前位置 ==============================
 - (UserLocation *)myPosition
@@ -143,48 +149,85 @@
         if (annotationView == nil) {
             annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
             
-            if (_dvImage) {
-                annotationView.image = _dvImage;
-            }else{
-                annotationView.pinColor = BMKPinAnnotationColorRed;
-            }
-            
-            BMKActionPaopaoView *paopao=[[BMKActionPaopaoView alloc] initWithCustomView:self.dvPaopaoView];
+            BMKActionPaopaoView *paopao=[[BMKActionPaopaoView alloc] initWithCustomView:self.locatePaopao];
             annotationView.paopaoView = paopao;
             annotationView.animatesDrop = YES;
             annotationView.draggable = YES;
+            annotationView.selected = YES;
         }
+        
+        if (_dvImage) {
+            annotationView.image = _dvImage;
+        }else{
+            annotationView.pinColor = BMKPinAnnotationColorGreen;
+        }
+        
         return annotationView;
     }
     
     if ([annotation isKindOfClass:[GuiJiAnnotation class]]) {
+        
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:annotation.coordinate.latitude ],@"lat",[NSNumber numberWithDouble:annotation.coordinate.longitude],@"lon", nil];
+        
         NSString *AnnotationViewID = @"guijiMark";
         BMKPinAnnotationView *annotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationViewID];
         if (annotationView == nil) {
             annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
-            
-            CLLocation *ll = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
-            NSLog(@"点%f----%d---%d",ll.coordinate.latitude,[_coordinate2DArray indexOfObject:ll],_coordinate2DArray.count);
-            if ([_coordinate2DArray indexOfObject:ll] == 0) {
-                NSLog(@"起点%f",ll.coordinate.latitude);
-                annotationView.pinColor = BMKPinAnnotationColorGreen;
-            }else if ([_coordinate2DArray indexOfObject:ll] == _coordinate2DArray.count - 1){
-                NSLog(@"终点");
-                annotationView.pinColor = BMKPinAnnotationColorRed;
-            }else{
-                NSLog(@"中间点");
-                annotationView.pinColor = BMKPinAnnotationColorPurple;
-            }
-            
-            BMKActionPaopaoView *paopao=[[BMKActionPaopaoView alloc] initWithCustomView:self.dvPaopaoView];
+
+            BMKActionPaopaoView *paopao = [[BMKActionPaopaoView alloc] initWithCustomView:[[PaopaoCustomView alloc] initWithFrame:CGRectMake(0.f, 0.f, 200.f, 100.f)]];
             annotationView.paopaoView = paopao;
-            annotationView.animatesDrop = YES;
+            annotationView.animatesDrop = NO;
             annotationView.draggable = YES;
         }
+        
+
+        if ([_coordinate2DArray indexOfObject:dic] == 0) {
+            //轨迹起点
+            if (_startImage) {
+                annotationView.image = _startImage;
+            }else{
+                annotationView.pinColor = BMKPinAnnotationColorGreen;
+            }
+            
+        }else if ([_coordinate2DArray indexOfObject:dic] == _coordinate2DArray.count - 1){
+            //轨迹终点
+            if (_endImage) {
+                annotationView.image = _endImage;
+            }else{
+                annotationView.pinColor = BMKPinAnnotationColorRed;
+            }
+            
+        }else{
+            
+            //中间点,如果要区分中间点的定位类型，可以根据_guijiModelArray的model类型来切换图片
+            Model *model = _guijiModelArray[[_coordinate2DArray indexOfObject:dic]];
+            if (model.type == 0) {
+                annotationView.image = _wifiImage;
+            }else if (model.type == 1){
+                annotationView.image = _gpsImage;
+            }else if (model.type == 2){
+                annotationView.image = _lbsImage;
+            }else{
+                annotationView.image = _middleImage;
+            }
+            
+        }
+        
         return annotationView;
     }
     
     return nil;
+}
+
+- (void)pinAnimation
+{
+    CGRect endRect = _pinView.frame;
+    _pinView.calloutOffset = CGPointMake(0, -15);
+    [UIView animateWithDuration:1 delay:0 options:0.2 animations:^{
+        
+    } completion:^(BOOL finished) {
+        _pinView.frame = endRect;
+    }];
 }
 
 //根据overlay生成对应的View
@@ -204,17 +247,21 @@
 
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
 {
+    //走此函数说明有值
     if ([view.reuseIdentifier isEqualToString:@"deviceMark"]) {
         
         NSLog(@"I am renameMark.");
         
     }else if([view.reuseIdentifier isEqualToString:@"guijiMark"]){
         
+        PaopaoCustomView *linePaopao = view.paopaoView.subviews[0];
+        
+        [self.geoCodeSearch reverseWithCoordinate2D:view.annotation.coordinate success:^(BMKReverseGeoCodeResult *result) {
+            [linePaopao setTitle:result.address];
+        } fail:^(BMKSearchErrorCode error) {
+            [linePaopao setTitle:@"反转失败"];
+        }];
     }
-    
-    NSString *str = [NSString stringWithFormat:@"%d",arc4random()%10];
-    [self.dvPaopaoView setTitle:str];
-    NSLog(@"%f",view.annotation.coordinate);
 }
 
 #pragma mark ============================== 父类方法 ==============================
@@ -316,8 +363,10 @@
         
         [self.geoCodeSearch reverseWithCoordinate2D:_dvCLLocation success:^(BMKReverseGeoCodeResult *result) {
             success(result.address);
+            [_locatePaopao setTitle:result.address];
         } fail:^(BMKSearchErrorCode error) {
             fail();
+            [_locatePaopao setTitle:@"反转失败"];
         }];
     }
 }
@@ -326,10 +375,20 @@
 
 - (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage endImage:(UIImage *)endImage
 {
-    [self jany_pathMoveWithData:dataArr withAnnotation:NO startImage:nil endImage:nil lineWidth:4 lineColor:[UIColor redColor]];
+    [self jany_pathMoveWithData:dataArr startImage:startImage middleImage:nil endImage:endImage lineWidth:4 lineColor:[UIColor redColor]];
+}
+- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage
+{
+    [self jany_pathMoveWithData:dataArr startImage:startImage middleImage:img endImage:endImage lineWidth:4 lineColor:[UIColor redColor]];
 }
 
-- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag startImage:(UIImage *)startImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
+- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage
+{
+    [self jany_pathMoveWithData:dataArr startImage:startImage wifiImgae:wifiImgae gpsImage:gpsImage lbsImage:lbsImage endImage:endImage lineWidth:4 lineColor:[UIColor redColor]];
+
+}
+
+- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
 {
     /*
      百度地图画轨迹不会出现卡顿现象
@@ -342,41 +401,102 @@
     
     _startImage = startImage;
     _endImage = endImage;
+    _middleImage = img;
     _guijiLineWidth = width;
     _guijiLineColor = lineColor;
+    _guijiModelArray = [NSArray arrayWithArray:dataArr];
+    
+    _wifiImage = nil;
+    _gpsImage = nil;
+    _lbsImage = nil;
 
-    if (flag) {//带大头针的轨迹
-        
-    }else{//不带中间大头针的轨迹
-        [self guijiNoAnnotation:dataArr];
-    }
+    [self guijiAnnotation:dataArr];
+    
+}
+
+- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
+{
+    _wifiImage = wifiImgae;
+    _gpsImage = gpsImage;
+    _lbsImage = lbsImage;
+    _startImage = startImage;
+    _endImage = endImage;
+    _middleImage = nil;
+    _guijiLineWidth = width;
+    _guijiLineColor = lineColor;
+    _guijiModelArray = [NSArray arrayWithArray:dataArr];
+    
+    [self guijiAnnotation:dataArr];
 }
 
 - (void)guijiNoAnnotation:(NSArray *)arr
 {
+    [_myMap removeAnnotations:_guijiAnnotationArray];
+    [_guijiAnnotationArray removeAllObjects];
+    
     _coordinate2DArray = [NSMutableArray arrayWithCapacity:12];
-    NSMutableArray *arrAnnotation = [NSMutableArray array];
     CLLocationCoordinate2D coors[arr.count];
+    
     for (int i = 0; i < arr.count; i ++) {
         
         Model *model = arr[i];
         CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(model.lat,model.lon);
         coors[i] = LL;
-        
-        CLLocation *objLL = [[CLLocation alloc] initWithLatitude:model.lat longitude:model.lon];
-        [_coordinate2DArray addObject:objLL];
+
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:model.lat],@"lat",[NSNumber numberWithDouble:model.lon],@"lon", nil];
+        [_coordinate2DArray addObject:dic];
         
         GuiJiAnnotation *annotation = [[GuiJiAnnotation alloc] init];
         [annotation setCoordinate:LL];
-        [arrAnnotation addObject:annotation];
+        [_guijiAnnotationArray addObject:annotation];
     }
-    
-    [_myMap addAnnotations:arrAnnotation];
+    [_myMap addAnnotations:_guijiAnnotationArray];
     
     if ([self.guijiLine setPolylineWithCoordinates:coors count:arr.count]) {
         [_myMap addOverlay: _guijiLine];
         [self mapViewFitPolyLine:_guijiLine];
     }
+}
+
+- (void)guijiAnnotation:(NSArray *)arr
+{
+    [_myMap removeAnnotations:_guijiAnnotationArray];
+    [_guijiAnnotationArray removeAllObjects];
+    
+    _coordinate2DArray = [NSMutableArray arrayWithCapacity:12];
+    NSMutableArray *snapArray = [NSMutableArray array];
+    CLLocationCoordinate2D coors[arr.count];
+    
+    int snapValue = 0;
+    
+    for (int i = 0; i < arr.count; i ++) {
+        
+        snapValue ++;
+        Model *model = arr[i];
+        CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(model.lat,model.lon);
+        coors[i] = LL;
+        
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:model.lat],@"lat",[NSNumber numberWithDouble:model.lon],@"lon", nil];
+        [_coordinate2DArray addObject:dic];
+        
+        GuiJiAnnotation *annotation = [[GuiJiAnnotation alloc] init];
+        [annotation setCoordinate:LL];
+        [_guijiAnnotationArray addObject:annotation];
+        [snapArray addObject:annotation];
+        
+        if (snapValue == 2) {
+            
+            snapValue = 0;
+            [_myMap addAnnotations:snapArray];
+            [snapArray removeAllObjects];
+        }
+    }
+    
+    if ([self.guijiLine setPolylineWithCoordinates:coors count:arr.count]) {
+        [_myMap addOverlay: _guijiLine];
+        [self mapViewFitPolyLine:_guijiLine];
+    }
+    
 }
 
 #pragma mark ============================== 返回地图可视区域 ==============================

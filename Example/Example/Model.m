@@ -9,5 +9,8 @@
 #import "Model.h"
 
 @implementation Model
-
+- (void)setType:(NSInteger)type
+{
+    _type = arc4random() % 3;
+}
 @end

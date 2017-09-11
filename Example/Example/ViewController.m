@@ -86,25 +86,25 @@
 
 - (void)centerbtnclick
 {
-    /*
-    CLLocationCoordinate2D ll = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
     
-    if (_flag) {
-        
-        _flag = NO;
-        ll = CLLocationCoordinate2DMake(0, 113.9482886037346);
-        
-    }else{
-        _flag = YES;
-        ll = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
-    }
+//    CLLocationCoordinate2D ll = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
+//    
+//    if (_flag) {
+//        
+//        _flag = NO;
+//        ll = CLLocationCoordinate2DMake(0, 113.9482886037346);
+//        
+//    }else{
+//        _flag = YES;
+//        ll = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
+//    }
+//    
+//    [map jany_locateWithCoordinate2D:ll Coordinate2DType:Bd09 annotationImage:[UIImage imageNamed:@"HomePage_nearbyBike"] success:^(NSString *address) {
+//        NSLog(@"%@",address);
+//    } fail:^{
+//        NSLog(@"fail");
+//    }];
     
-    [map jany_locateWithCoordinate2D:ll Coordinate2DType:Bd09 annotationImage:[UIImage imageNamed:@"sportarrow"] success:^(NSString *address) {
-        NSLog(@"%@",address);
-    } fail:^{
-        NSLog(@"fail");
-    }];
-     */
     
     if (_flag) {
         
@@ -135,7 +135,9 @@
             [arr addObject:model];
         }
         
-        [map jany_pathMoveWithData:arr startImage:nil endImage:nil];
+        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"]];
+        
+//        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[UIColor greenColor]];
         
     }else{
 
@@ -167,7 +169,8 @@
             [arr addObject:model];
         }
         
-        [map jany_pathMoveWithData:arr startImage:nil endImage:nil];
+//        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"]];
+        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[UIColor greenColor]];
     }
 
 }

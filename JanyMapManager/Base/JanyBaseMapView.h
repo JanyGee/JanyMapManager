@@ -11,6 +11,7 @@
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>
 #import "JZLocationConverter.h"
 #import "Model.h"
+#import <objc/runtime.h>
 
 typedef enum : NSUInteger {//常规地图、卫星地图、3D地图
     MapNormal,
@@ -124,24 +125,61 @@ typedef void (^ReverseFail)(void);
  */
 
 /**
- 绘制轨迹，设置起点图片和终点图片
+  绘制轨迹，设置起点图片，终点图片
 
- @param dataArr 轨迹数据，需要大于两条数据
- @param startImage 开始点图片
- @param endImage 结束点图片
+ @param dataArr 数据模型数组
+ @param startImage 开始点的图片
+ @param endImage 结束点的图片
  */
 - (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage endImage:(UIImage *)endImage;
 
 /**
+ 绘制轨迹，设置起点图片，中间点的图片，终点图片
+
+ @param dataArr 轨迹数据，需要大于两条数据
+ @param startImage 开始点图片
+ @param img 中间轨迹点的图片
+ @param endImage 结束点图片
+ */
+- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage;
+
+/**
+ 绘制轨迹，设置起点，中间不同定类型点的图片（wifi，GPS，lbs）三种类型，终点图片
+
+ @param dataArr 轨迹数据，需要大于两条数据
+ @param startImage 开始点图片
+ @param wifiImgae wifi点的图片
+ @param gpsImage gps点的图片
+ @param lbsImage lbs点的图片
+ @param endImage 结束点的图片
+ */
+- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage;
+/**
  绘制轨迹，设置起点图片和终点图片还有中间轨迹点的图片
 
  @param dataArr 轨迹数据，需要大于两条数据
- @param flag 是否显示轨迹上的大头针，yes添加
+ @param startImage 开始点图片
+ @param img 中间轨迹点的图片
+ @param endImage 结束点图片
  @param width 轨迹线的宽度
  @param lineColor 轨迹的颜色
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr withAnnotation:(BOOL)flag startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
 
+
+/**
+ 绘制轨迹，设置起点，中间不同定类型点的图片（wifi，GPS，lbs）三种类型，终点图片,设置轨迹线的颜色和宽度
+
+ @param dataArr 轨迹数据，需要大于两条数据
+ @param startImage 开始点图片
+ @param wifiImgae wifi点的图片
+ @param gpsImage gps点的图片
+ @param lbsImage lbs点的图片
+ @param endImage 结束点的图片
+ @param width 轨迹线的宽度
+ @param lineColor 轨迹的颜色
+ */
+- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
 #pragma mark ============================== 电子围栏 ==============================
 
 /**
