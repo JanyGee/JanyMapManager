@@ -36,6 +36,8 @@
 		319161E61F6770FE005C0B51 /* MovePolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161E51F6770FE005C0B51 /* MovePolyline.m */; };
 		319161E91F677205005C0B51 /* MovePointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161E81F677205005C0B51 /* MovePointAnnotation.m */; };
 		319161EC1F677C2A005C0B51 /* DVPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161EB1F677C2A005C0B51 /* DVPinAnnotationView.m */; };
+		319161EF1F67D74D005C0B51 /* FenceCentreAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161EE1F67D74D005C0B51 /* FenceCentreAnnotation.m */; };
+		319161F11F67DD8F005C0B51 /* arrowTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 319161F01F67DD8F005C0B51 /* arrowTexture.png */; };
 		31AE802F1F6230D500531E54 /* PaopaoCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE802E1F6230D500531E54 /* PaopaoCustomView.m */; };
 		31AE80321F62675700531E54 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE80311F62675700531E54 /* Model.m */; };
 		31AE80351F627B5F00531E54 /* GuiJiAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE80341F627B5F00531E54 /* GuiJiAnnotation.m */; };
@@ -97,6 +99,9 @@
 		319161E81F677205005C0B51 /* MovePointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovePointAnnotation.m; sourceTree = "<group>"; };
 		319161EA1F677C2A005C0B51 /* DVPinAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVPinAnnotationView.h; sourceTree = "<group>"; };
 		319161EB1F677C2A005C0B51 /* DVPinAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVPinAnnotationView.m; sourceTree = "<group>"; };
+		319161ED1F67D74D005C0B51 /* FenceCentreAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FenceCentreAnnotation.h; sourceTree = "<group>"; };
+		319161EE1F67D74D005C0B51 /* FenceCentreAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FenceCentreAnnotation.m; sourceTree = "<group>"; };
+		319161F01F67DD8F005C0B51 /* arrowTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowTexture.png; sourceTree = "<group>"; };
 		31AE802D1F6230D500531E54 /* PaopaoCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaopaoCustomView.h; sourceTree = "<group>"; };
 		31AE802E1F6230D500531E54 /* PaopaoCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaopaoCustomView.m; sourceTree = "<group>"; };
 		31AE80301F62675700531E54 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
@@ -169,6 +174,7 @@
 		3171479E1F5FE349001ED7EB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				319161F01F67DD8F005C0B51 /* arrowTexture.png */,
 				3179FF3F1F667C0500885601 /* startAnnoImage@2x.png */,
 				3179FF3B1F667BFD00885601 /* homePage_wholeAnchor@2x.png */,
 				3179FF3C1F667BFD00885601 /* HomePage_anchorBackground@2x.png */,
@@ -225,6 +231,8 @@
 				31AE80341F627B5F00531E54 /* GuiJiAnnotation.m */,
 				319161E71F677205005C0B51 /* MovePointAnnotation.h */,
 				319161E81F677205005C0B51 /* MovePointAnnotation.m */,
+				319161ED1F67D74D005C0B51 /* FenceCentreAnnotation.h */,
+				319161EE1F67D74D005C0B51 /* FenceCentreAnnotation.m */,
 				31AE802D1F6230D500531E54 /* PaopaoCustomView.h */,
 				31AE802E1F6230D500531E54 /* PaopaoCustomView.m */,
 				319161E41F6770FE005C0B51 /* MovePolyline.h */,
@@ -385,6 +393,7 @@
 				317147AB1F5FE349001ED7EB /* Assets.xcassets in Resources */,
 				317147A91F5FE349001ED7EB /* Main.storyboard in Resources */,
 				317147CF1F5FE5B6001ED7EB /* LICENSE in Resources */,
+				319161F11F67DD8F005C0B51 /* arrowTexture.png in Resources */,
 				3179FF3D1F667BFD00885601 /* homePage_wholeAnchor@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -464,6 +473,7 @@
 				317147A61F5FE349001ED7EB /* ViewController.m in Sources */,
 				31AE80351F627B5F00531E54 /* GuiJiAnnotation.m in Sources */,
 				317147D81F5FE83F001ED7EB /* JanyBaiduMapView.m in Sources */,
+				319161EF1F67D74D005C0B51 /* FenceCentreAnnotation.m in Sources */,
 				317B8DC81F60D3460069BEA1 /* UserLocation.m in Sources */,
 				317B8DCE1F6118B70069BEA1 /* JZLocationConverter.m in Sources */,
 				319161E91F677205005C0B51 /* MovePointAnnotation.m in Sources */,

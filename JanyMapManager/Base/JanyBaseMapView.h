@@ -11,7 +11,6 @@
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>
 #import "JZLocationConverter.h"
 #import "Model.h"
-#import <objc/runtime.h>
 
 typedef enum : NSUInteger {//常规地图、卫星地图、3D地图
     MapNormal,
@@ -131,7 +130,7 @@ typedef void (^ReverseFail)(void);
  @param startImage 开始点的图片
  @param endImage 结束点的图片
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage endImage:(UIImage *)endImage;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage endImage:(UIImage *)endImage;
 
 /**
  绘制轨迹，设置起点图片，中间点的图片，终点图片
@@ -141,7 +140,7 @@ typedef void (^ReverseFail)(void);
  @param img 中间轨迹点的图片
  @param endImage 结束点图片
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage;
 
 /**
  绘制轨迹，设置起点，中间不同定类型点的图片（wifi，GPS，lbs）三种类型，终点图片
@@ -153,7 +152,7 @@ typedef void (^ReverseFail)(void);
  @param lbsImage lbs点的图片
  @param endImage 结束点的图片
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage;
 /**
  绘制轨迹，设置起点图片和终点图片还有中间轨迹点的图片
 
@@ -164,7 +163,7 @@ typedef void (^ReverseFail)(void);
  @param width 轨迹线的宽度
  @param lineColor 轨迹的颜色
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
 
 
 /**
@@ -179,7 +178,7 @@ typedef void (^ReverseFail)(void);
  @param width 轨迹线的宽度
  @param lineColor 轨迹的颜色
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
 
 
 /**
@@ -190,32 +189,47 @@ typedef void (^ReverseFail)(void);
  @param width 轨迹线的宽度
  @param lineColor 轨迹的颜色
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr moveImage:(UIImage *)moveImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType moveImage:(UIImage *)moveImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
+
+
+/**
+ 清除轨迹信息
+ */
+- (void)jany_cleanAllPath;
 #pragma mark ============================== 电子围栏 ==============================
 
 /**
  画一个圆形电子围栏
 
- @param Coordinate2D 围栏中心
+ @param coordinate2D 围栏中心
+ @param centreImage 圆中心点的图片
  @param radiu 范围 米
  @param lineColor 圆圈颜色
  @param coverColor 内圆颜色
  */
-- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)Coordinate2D radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor;
-
+- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor;
 
 /**
  画一个圆形电子围栏，返回中心点的地址反转信息
 
- @param Coordinate2D 围栏中心
+ @param coordinate2D 围栏中心
+ @param centreImage 圆中心点的图片
  @param radiu 范围 米
  @param lineColor 圆圈颜色
  @param coverColor 内圆颜色
  @param success 返回对应的dic
  @param fail 返回失败的状态
  */
-- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)Coordinate2D radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor success:(ReverseSuccess)success fail:(ReverseFail)fail;
+- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor success:(ReverseSuccess)success fail:(ReverseFail)fail;
 
+
+/**
+ 画多个电子围栏
+
+ @param fenceArrary 电子围栏模型数组
+ @param imageArrary 按排列的图片名，针对模型里面的数据
+ */
+- (void)jany_drawFenceWithCoordinate2D:(NSArray *)fenceArrary coordinate2DType:(Coordinate2DType)llType images:(NSArray *)imageArrary;
 
 /**
  此方法针对已经设置好了电子围栏，然后对其改变大小，调用比较频繁
@@ -224,4 +238,8 @@ typedef void (^ReverseFail)(void);
  */
 - (void)jany_setRadiu:(CGFloat)radiu;
 
+/**
+ 清除所有电子围栏信息
+ */
+- (void)jany_cleanAllFence;
 @end

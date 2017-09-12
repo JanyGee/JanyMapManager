@@ -17,6 +17,7 @@
 #import "PaopaoCustomView.h"
 #import "MovePolyline.h"
 #import "MovePointAnnotation.h"
+#import "FenceCentreAnnotation.h"
 
 @interface JanyBaiduMapView ()<BMKMapViewDelegate>
 {
@@ -24,6 +25,8 @@
     UIImage *_dvImage;//设备大头针图片
     NSObject *_dvInfor;//定位点相应气泡上的信息
     UIColor *_guijiLineColor;
+    UIColor *_fenceStrokerColor;
+    UIColor *_fenceFillColor;
     CGFloat _guijiLineWidth;
     
     UIImage *_startImage;
@@ -33,6 +36,7 @@
     UIImage *_gpsImage;
     UIImage *_lbsImage;
     UIImage *_moveImage;
+    UIImage *_fenceImage;
     NSArray *_guijiModelArray;
     NSMutableArray *_coordinate2DArray;
     NSMutableArray *_guijiAnnotationArray;
@@ -46,6 +50,7 @@
 @property (nonatomic, strong)MovePolyline *movePolyLine;
 @property (nonatomic, strong)MovePointAnnotation *movePointAnnotation;
 @property (nonatomic, strong)BMKPinAnnotationView *animationPinAnnotationView;
+@property (nonatomic, strong)FenceCentreAnnotation *fenceAnnotation;
 @end
 
 @implementation JanyBaiduMapView
@@ -104,6 +109,15 @@
     }
     
     return _movePointAnnotation;
+}
+
+- (FenceCentreAnnotation *)fenceAnnotation
+{
+    if (!_fenceAnnotation) {
+        _movePointAnnotation = [[MovePointAnnotation alloc] init];
+    }
+    
+    return _fenceAnnotation;
 }
 
 - (BMKPolyline *)guijiLine
@@ -201,7 +215,7 @@
         if (annotationView == nil) {
             annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
             
-            BMKActionPaopaoView *paopao=[[BMKActionPaopaoView alloc] initWithCustomView:self.locatePaopao];
+            BMKActionPaopaoView *paopao=[[BMKActionPaopaoView alloc] initWithCustomView:[[PaopaoCustomView alloc] initWithFrame:CGRectMake(0.f, 0.f, 200.f, 100.f)]];
             annotationView.paopaoView = paopao;
         }
         
@@ -225,8 +239,6 @@
 
             BMKActionPaopaoView *paopao = [[BMKActionPaopaoView alloc] initWithCustomView:[[PaopaoCustomView alloc] initWithFrame:CGRectMake(0.f, 0.f, 200.f, 100.f)]];
             annotationView.paopaoView = paopao;
-            annotationView.animatesDrop = NO;
-            annotationView.draggable = YES;
         }
         
 
@@ -260,6 +272,8 @@
                 annotationView.image = _middleImage;
             }
             
+            NSLog(@"----%d",model.type);
+            
         }
         
         return annotationView;
@@ -273,10 +287,14 @@
 {
     if ([overlay isKindOfClass:[BMKPolyline class]]){
         
-        BMKPolylineView* polylineView = [[BMKPolylineView alloc] initWithOverlay:overlay];
-        polylineView.strokeColor = _guijiLineColor;
+//        BMKPolylineView* polylineView = [[BMKPolylineView alloc] initWithOverlay:overlay];
+//        polylineView.strokeColor = _guijiLineColor;
+//        polylineView.lineWidth = _guijiLineWidth;
+        
+        BMKPolylineView *polylineView = [[BMKPolylineView alloc] initWithOverlay:overlay];
         polylineView.lineWidth = _guijiLineWidth;
-
+        [polylineView loadStrokeTextureImage:[UIImage imageNamed:@"arrowTexture"]];
+        
         return polylineView;
     }
     
@@ -302,6 +320,15 @@
         } fail:^(BMKSearchErrorCode error) {
             [linePaopao setTitle:@"反转失败"];
         }];
+    }else if ([view.reuseIdentifier isEqualToString:@"moveMark"]){
+        
+        PaopaoCustomView *movePaopao = view.paopaoView.subviews[0];
+        
+        [self.geoCodeSearch reverseWithCoordinate2D:view.annotation.coordinate success:^(BMKReverseGeoCodeResult *result) {
+            [movePaopao setTitle:result.address];
+        } fail:^(BMKSearchErrorCode error) {
+            [movePaopao setTitle:@"反转失败"];
+        }];
     }
 }
 
@@ -313,6 +340,37 @@
             view.transform = CGAffineTransformIdentity;
         }];
     }
+}
+
+#pragma mark ============================== 返回地图可视区域 ==============================
+- (void)mapViewFitPolyLine:(BMKPolyline *) polyLine {
+    CGFloat ltX, ltY, rbX, rbY;
+    if (polyLine.pointCount < 1) {
+        return;
+    }
+    BMKMapPoint pt = polyLine.points[0];
+    ltX = pt.x, ltY = pt.y;
+    rbX = pt.x, rbY = pt.y;
+    for (int i = 1; i < polyLine.pointCount; i++) {
+        BMKMapPoint pt = polyLine.points[i];
+        if (pt.x < ltX) {
+            ltX = pt.x;
+        }
+        if (pt.x > rbX) {
+            rbX = pt.x;
+        }
+        if (pt.y > ltY) {
+            ltY = pt.y;
+        }
+        if (pt.y < rbY) {
+            rbY = pt.y;
+        }
+    }
+    BMKMapRect rect;
+    rect.origin = BMKMapPointMake(ltX , ltY);
+    rect.size = BMKMapSizeMake(rbX - ltX, rbY - ltY);
+    [_myMap setVisibleMapRect:rect];
+    _myMap.zoomLevel = _myMap.zoomLevel - 0.3;
 }
 
 #pragma mark ============================== 父类方法 ==============================
@@ -434,22 +492,22 @@
 }
 
 #pragma mark ============================== 轨迹操作 ==============================
-- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage endImage:(UIImage *)endImage
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage endImage:(UIImage *)endImage
 {
-    [self jany_pathMoveWithData:dataArr startImage:startImage middleImage:nil endImage:endImage lineWidth:4 lineColor:[UIColor redColor]];
+    [self jany_pathMoveWithData:dataArr coordinate2DType:llType startImage:startImage middleImage:nil endImage:endImage lineWidth:4 lineColor:[UIColor redColor]];
 }
-- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage
 {
-    [self jany_pathMoveWithData:dataArr startImage:startImage middleImage:img endImage:endImage lineWidth:4 lineColor:[UIColor redColor]];
-}
-
-- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage
-{
-    [self jany_pathMoveWithData:dataArr startImage:startImage wifiImgae:wifiImgae gpsImage:gpsImage lbsImage:lbsImage endImage:endImage lineWidth:4 lineColor:[UIColor redColor]];
-
+    [self jany_pathMoveWithData:dataArr coordinate2DType:llType startImage:startImage middleImage:img endImage:endImage lineWidth:4 lineColor:[UIColor redColor]];
 }
 
-- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage
+{
+    [self jany_pathMoveWithData:dataArr coordinate2DType:llType startImage:startImage wifiImgae:wifiImgae gpsImage:gpsImage lbsImage:lbsImage endImage:endImage lineWidth:4 lineColor:[UIColor redColor]];
+
+}
+
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
 {
     /*
      百度地图画轨迹不会出现卡顿现象
@@ -472,14 +530,14 @@
     _lbsImage = nil;
 
     if (img) {
-        [self guijiAnnotation:dataArr];
+        [self guijiAnnotation:dataArr coordinate2DType:llType];
     }else{
-        [self guijiNoAnnotation:dataArr];
+        [self guijiNoAnnotation:dataArr coordinate2DType:llType];
     }
     
 }
 
-- (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
 {
     _wifiImage = wifiImgae;
     _gpsImage = gpsImage;
@@ -492,13 +550,13 @@
     _guijiModelArray = [NSArray arrayWithArray:dataArr];
     
     if (wifiImgae || gpsImage || lbsImage) {
-        [self guijiAnnotation:dataArr];
+        [self guijiAnnotation:dataArr coordinate2DType:llType];
     }else{
-        [self guijiNoAnnotation:dataArr];
+        [self guijiNoAnnotation:dataArr coordinate2DType:llType];
     }
 }
 
-- (void)jany_pathMoveWithData:(NSArray *)dataArr moveImage:(UIImage *)moveImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
+- (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType moveImage:(UIImage *)moveImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
 {
     if (dataArr.count == 0) {
         [_myMap removeAnnotation:_movePointAnnotation];
@@ -510,6 +568,14 @@
         
         Model *model = dataArr[i];
         CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(model.lat,model.lon);
+        if (llType == Wgs84) {//坐标转换
+            LL = [JZLocationConverter wgs84ToBd09:LL];
+        }else if (llType == Gcj02){
+            LL = [JZLocationConverter gcj02ToBd09:LL];
+        }else{
+            LL = LL;
+        }
+        
         coors[i] = LL;
     }
     
@@ -525,7 +591,7 @@
     }
 }
 
-- (void)guijiNoAnnotation:(NSArray *)arr
+- (void)guijiNoAnnotation:(NSArray *)arr coordinate2DType:(Coordinate2DType)llType
 {
     [_myMap removeAnnotations:_guijiAnnotationArray];
     [_guijiAnnotationArray removeAllObjects];
@@ -537,6 +603,15 @@
         
         Model *model = arr[i];
         CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(model.lat,model.lon);
+        
+        if (llType == Wgs84) {//坐标转换
+            LL = [JZLocationConverter wgs84ToBd09:LL];
+        }else if (llType == Gcj02){
+            LL = [JZLocationConverter gcj02ToBd09:LL];
+        }else{
+            LL = LL;
+        }
+        
         coors[i] = LL;
 
         NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:model.lat],@"lat",[NSNumber numberWithDouble:model.lon],@"lon", nil];
@@ -555,7 +630,7 @@
     }
 }
 
-- (void)guijiAnnotation:(NSArray *)arr
+- (void)guijiAnnotation:(NSArray *)arr coordinate2DType:(Coordinate2DType)llType
 {
     [_myMap removeAnnotations:_guijiAnnotationArray];
     [_guijiAnnotationArray removeAllObjects];
@@ -571,6 +646,15 @@
         snapValue ++;
         Model *model = arr[i];
         CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(model.lat,model.lon);
+        
+        if (llType == Wgs84) {//坐标转换
+            LL = [JZLocationConverter wgs84ToBd09:LL];
+        }else if (llType == Gcj02){
+            LL = [JZLocationConverter gcj02ToBd09:LL];
+        }else{
+            LL = LL;
+        }
+        
         coors[i] = LL;
         
         NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:model.lat],@"lat",[NSNumber numberWithDouble:model.lon],@"lon", nil];
@@ -581,49 +665,42 @@
         [_guijiAnnotationArray addObject:annotation];
         [snapArray addObject:annotation];
         
-        if (snapValue == 2) {
-            
-            snapValue = 0;
-            [_myMap addAnnotations:snapArray];
-            [snapArray removeAllObjects];
-        }
+//        if (snapValue == 1) {
+//            
+//            snapValue = 0;
+//            [_myMap addAnnotations:snapArray];
+//            [snapArray removeAllObjects];
+//        }
     }
     
+    [_myMap addAnnotations:snapArray];
     if ([self.guijiLine setPolylineWithCoordinates:coors count:arr.count]) {
         [_myMap addOverlay: _guijiLine];
         [self mapViewFitPolyLine:_guijiLine];
     }
-    
 }
 
-#pragma mark ============================== 返回地图可视区域 ==============================
-- (void)mapViewFitPolyLine:(BMKPolyline *) polyLine {
-    CGFloat ltX, ltY, rbX, rbY;
-    if (polyLine.pointCount < 1) {
-        return;
+- (void)jany_cleanAllPath
+{
+    [_myMap removeOverlay:_guijiLine];
+    [_myMap removeOverlay:_movePolyLine];
+    [_myMap removeAnnotations:_coordinate2DArray];
+    [_myMap removeAnnotation:_movePointAnnotation];
+    [_myMap removeAnnotations:_guijiAnnotationArray];
+}
+
+#pragma mark ============================== 电子围栏 ==============================
+- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor success:(ReverseSuccess)success fail:(ReverseFail)fail
+{
+    if (llType == Wgs84) {//坐标转换
+        coordinate2D = [JZLocationConverter wgs84ToBd09:coordinate2D];
+    }else if (llType == Gcj02){
+        coordinate2D = [JZLocationConverter gcj02ToBd09:coordinate2D];
+    }else{
+        coordinate2D = coordinate2D;
     }
-    BMKMapPoint pt = polyLine.points[0];
-    ltX = pt.x, ltY = pt.y;
-    rbX = pt.x, rbY = pt.y;
-    for (int i = 1; i < polyLine.pointCount; i++) {
-        BMKMapPoint pt = polyLine.points[i];
-        if (pt.x < ltX) {
-            ltX = pt.x;
-        }
-        if (pt.x > rbX) {
-            rbX = pt.x;
-        }
-        if (pt.y > ltY) {
-            ltY = pt.y;
-        }
-        if (pt.y < rbY) {
-            rbY = pt.y;
-        }
-    }
-    BMKMapRect rect;
-    rect.origin = BMKMapPointMake(ltX , ltY);
-    rect.size = BMKMapSizeMake(rbX - ltX, rbY - ltY);
-    [_myMap setVisibleMapRect:rect];
-    _myMap.zoomLevel = _myMap.zoomLevel - 0.3;
+    _fenceStrokerColor = lineColor;
+    _fenceFillColor = coverColor;
+    
 }
 @end

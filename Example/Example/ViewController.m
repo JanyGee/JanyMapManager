@@ -99,7 +99,7 @@
     }
     
     //[map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"]];
-    [map jany_pathMoveWithData:arr moveImage:[UIImage imageNamed:@"HomePage_anchorBackground"] lineWidth:3 lineColor:[UIColor greenColor]];
+    [map jany_pathMoveWithData:arr coordinate2DType:Bd09 moveImage:[UIImage imageNamed:@"HomePage_anchorBackground"] lineWidth:3 lineColor:[UIColor greenColor]];
 }
 
 - (void)click{
@@ -122,6 +122,8 @@
         _flag = YES;
         [map stopLocation];
     }
+    
+    [map jany_cleanAllPath];
 }
 
 - (void)centerbtnclick
@@ -175,7 +177,7 @@
             [arr addObject:model];
         }
         
-        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.5]];
+        [map jany_pathMoveWithData:arr coordinate2DType:Bd09 startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.5]];
         
 //        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[UIColor greenColor]];
         
@@ -210,7 +212,7 @@
         }
         
 //        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"]];
-        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.3]];
+        [map jany_pathMoveWithData:arr coordinate2DType:Bd09 startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.3]];
     }
 
 }
