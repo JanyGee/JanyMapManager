@@ -72,18 +72,18 @@
 {
 
     CLLocationCoordinate2D coors[12];
-    coors[0] = CLLocationCoordinate2DMake(22.922789663576, 113.9482886037343);
-    coors[1] = CLLocationCoordinate2DMake(22.8108252350, 113.90489842423);
-    coors[2] = CLLocationCoordinate2DMake(22.7103014726, 113.90458044929);
-    coors[3] = CLLocationCoordinate2DMake(22.7107690193, 113.90400776584);
-    coors[4] = CLLocationCoordinate2DMake(22.57109077253, 113.90383739502);
-    coors[5] = CLLocationCoordinate2DMake(22.57126944089, 113.90343044001);
-    coors[6] = CLLocationCoordinate2DMake(22.57127047492, 113.90335423128);
-    coors[7] = CLLocationCoordinate2DMake(22.5713517857, 113.90323699237);
-    coors[8] = CLLocationCoordinate2DMake(22.57175734488, 113.90283532769);
-    coors[9] = CLLocationCoordinate2DMake(22.57145558947, 113.90262582616);
-    coors[10] = CLLocationCoordinate2DMake(22.53396860615, 113.90112740338);
-    coors[11] = CLLocationCoordinate2DMake(22.7440620437, 113.90014707411);
+    coors[0] = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
+    coors[1] = CLLocationCoordinate2DMake(22.571082523507, 113.90489842423);
+    coors[2] = CLLocationCoordinate2DMake(22.571030147266, 113.90458044929);
+    coors[3] = CLLocationCoordinate2DMake(22.571076901093, 113.90400776584);
+    coors[4] = CLLocationCoordinate2DMake(22.571090775253, 113.90383739502);
+    coors[5] = CLLocationCoordinate2DMake(22.571269494089, 113.90343044001);
+    coors[6] = CLLocationCoordinate2DMake(22.571270547492, 113.90335423128);
+    coors[7] = CLLocationCoordinate2DMake(22.57135417857, 113.90323699237);
+    coors[8] = CLLocationCoordinate2DMake(22.571785734488, 113.90283532769);
+    coors[9] = CLLocationCoordinate2DMake(22.571845558947, 113.90262582616);
+    coors[10] = CLLocationCoordinate2DMake(22.573396860615, 113.90112740338);
+    coors[11] = CLLocationCoordinate2DMake(22.57440620437, 113.90014707411);
     
     int count = 12 * slide.value;
     
@@ -98,10 +98,8 @@
         [arr addObject:model];
     }
     
-    NSLog(@"-----%d----%d",count,arr.count);
-    
-    [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"]];
-    
+    //[map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"]];
+    [map jany_pathMoveWithData:arr moveImage:[UIImage imageNamed:@"HomePage_anchorBackground"] lineWidth:3 lineColor:[UIColor greenColor]];
 }
 
 - (void)click{
@@ -134,14 +132,14 @@
 //    if (_flag) {
 //        
 //        _flag = NO;
-//        ll = CLLocationCoordinate2DMake(0, 113.9482886037346);
+//        ll = CLLocationCoordinate2DMake(22.55922789663576, 113.9482886037346);
 //        
 //    }else{
 //        _flag = YES;
 //        ll = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
 //    }
 //    
-//    [map jany_locateWithCoordinate2D:ll Coordinate2DType:Bd09 annotationImage:[UIImage imageNamed:@"HomePage_nearbyBike"] success:^(NSString *address) {
+//    [map jany_locateWithCoordinate2D:ll Coordinate2DType:Bd09 annotationImage:[UIImage imageNamed:@"homePage_wholeAnchor"] success:^(NSString *address) {
 //        NSLog(@"%@",address);
 //    } fail:^{
 //        NSLog(@"fail");
@@ -151,43 +149,7 @@
     if (_flag) {
         
         _flag = NO;
-        CLLocationCoordinate2D coors[48];
-        coors[0] = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
-        coors[1] = CLLocationCoordinate2DMake(22.571082523507, 113.90489842423);
-        coors[2] = CLLocationCoordinate2DMake(22.571030147266, 113.90458044929);
-        coors[3] = CLLocationCoordinate2DMake(22.571076901093, 113.90400776584);
-        coors[4] = CLLocationCoordinate2DMake(22.571090775253, 113.90383739502);
-        coors[5] = CLLocationCoordinate2DMake(22.571269494089, 113.90343044001);
-        coors[6] = CLLocationCoordinate2DMake(22.571270547492, 113.90335423128);
-        coors[7] = CLLocationCoordinate2DMake(22.57135417857, 113.90323699237);
-        coors[8] = CLLocationCoordinate2DMake(22.571785734488, 113.90283532769);
-        coors[9] = CLLocationCoordinate2DMake(22.571845558947, 113.90262582616);
-        coors[10] = CLLocationCoordinate2DMake(22.573396860615, 113.90112740338);
-        coors[11] = CLLocationCoordinate2DMake(22.57440620437, 113.90014707411);
-        coors[0] = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
-        coors[1] = CLLocationCoordinate2DMake(22.571082523507, 113.90489842423);
-        coors[2] = CLLocationCoordinate2DMake(22.571030147266, 113.90458044929);
-        coors[3] = CLLocationCoordinate2DMake(22.571076901093, 113.90400776584);
-        coors[4] = CLLocationCoordinate2DMake(22.571090775253, 113.90383739502);
-        coors[5] = CLLocationCoordinate2DMake(22.571269494089, 113.90343044001);
-        coors[6] = CLLocationCoordinate2DMake(22.571270547492, 113.90335423128);
-        coors[7] = CLLocationCoordinate2DMake(22.57135417857, 113.90323699237);
-        coors[8] = CLLocationCoordinate2DMake(22.571785734488, 113.90283532769);
-        coors[9] = CLLocationCoordinate2DMake(22.571845558947, 113.90262582616);
-        coors[10] = CLLocationCoordinate2DMake(22.573396860615, 113.90112740338);
-        coors[11] = CLLocationCoordinate2DMake(22.57440620437, 113.90014707411);
-        coors[0] = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
-        coors[1] = CLLocationCoordinate2DMake(22.571082523507, 113.90489842423);
-        coors[2] = CLLocationCoordinate2DMake(22.571030147266, 113.90458044929);
-        coors[3] = CLLocationCoordinate2DMake(22.571076901093, 113.90400776584);
-        coors[4] = CLLocationCoordinate2DMake(22.571090775253, 113.90383739502);
-        coors[5] = CLLocationCoordinate2DMake(22.571269494089, 113.90343044001);
-        coors[6] = CLLocationCoordinate2DMake(22.571270547492, 113.90335423128);
-        coors[7] = CLLocationCoordinate2DMake(22.57135417857, 113.90323699237);
-        coors[8] = CLLocationCoordinate2DMake(22.571785734488, 113.90283532769);
-        coors[9] = CLLocationCoordinate2DMake(22.571845558947, 113.90262582616);
-        coors[10] = CLLocationCoordinate2DMake(22.573396860615, 113.90112740338);
-        coors[11] = CLLocationCoordinate2DMake(22.57440620437, 113.90014707411);
+        CLLocationCoordinate2D coors[12];
         coors[0] = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
         coors[1] = CLLocationCoordinate2DMake(22.571082523507, 113.90489842423);
         coors[2] = CLLocationCoordinate2DMake(22.571030147266, 113.90458044929);
@@ -203,7 +165,7 @@
         
         
         NSMutableArray *arr = [NSMutableArray arrayWithCapacity:12];
-        for (int i = 0; i < 48; i ++) {
+        for (int i = 0; i < 12; i ++) {
             
             Model *model = [[Model alloc] init];
             model.lat = coors[i].latitude;
@@ -213,7 +175,7 @@
             [arr addObject:model];
         }
         
-        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"]];
+        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.5]];
         
 //        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[UIColor greenColor]];
         
@@ -248,7 +210,7 @@
         }
         
 //        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"]];
-        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[UIColor greenColor]];
+        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.3]];
     }
 
 }

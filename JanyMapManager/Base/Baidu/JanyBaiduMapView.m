@@ -15,6 +15,8 @@
 #import "PointAnnotation.h"
 #import "GuiJiAnnotation.h"
 #import "PaopaoCustomView.h"
+#import "MovePolyline.h"
+#import "MovePointAnnotation.h"
 
 @interface JanyBaiduMapView ()<BMKMapViewDelegate>
 {
@@ -30,6 +32,7 @@
     UIImage *_wifiImage;
     UIImage *_gpsImage;
     UIImage *_lbsImage;
+    UIImage *_moveImage;
     NSArray *_guijiModelArray;
     NSMutableArray *_coordinate2DArray;
     NSMutableArray *_guijiAnnotationArray;
@@ -38,9 +41,11 @@
 @property (nonatomic, strong)UserLocation *myPosition;
 @property (nonatomic, strong)JanyGeoCodeSearch *geoCodeSearch;
 @property (nonatomic, strong)PointAnnotation *pointAnnotation;
-@property (nonatomic, strong)BMKPolyline *guijiLine;
-@property (nonatomic, strong)BMKPinAnnotationView *pinView;
 @property (nonatomic, strong)PaopaoCustomView *locatePaopao;
+@property (nonatomic, strong)BMKPolyline *guijiLine;
+@property (nonatomic, strong)MovePolyline *movePolyLine;
+@property (nonatomic, strong)MovePointAnnotation *movePointAnnotation;
+@property (nonatomic, strong)BMKPinAnnotationView *animationPinAnnotationView;
 @end
 
 @implementation JanyBaiduMapView
@@ -92,12 +97,29 @@
     return _pointAnnotation;
 }
 
+- (MovePointAnnotation *)movePointAnnotation
+{
+    if (!_movePointAnnotation) {
+        _movePointAnnotation = [[MovePointAnnotation alloc] init];
+    }
+    
+    return _movePointAnnotation;
+}
+
 - (BMKPolyline *)guijiLine
 {
     if (!_guijiLine) {
         _guijiLine = [[BMKPolyline alloc] init];
     }
     return _guijiLine;
+}
+
+- (MovePolyline *)movePolyLine
+{
+    if (!_movePolyLine) {
+        _movePolyLine = [[MovePolyline alloc] init];
+    }
+    return _movePolyLine;
 }
 
 - (PaopaoCustomView *)locatePaopao
@@ -140,6 +162,14 @@
     
 }
 
+- (void)mapView:(BMKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
+{
+    if (_animationPinAnnotationView.selected) {
+        [_animationPinAnnotationView setSelected:NO animated:YES];
+        [_animationPinAnnotationView.paopaoView removeFromSuperview];
+    }
+}
+
 //根据anntation生成对应的View
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation
 {
@@ -151,13 +181,32 @@
             
             BMKActionPaopaoView *paopao=[[BMKActionPaopaoView alloc] initWithCustomView:self.locatePaopao];
             annotationView.paopaoView = paopao;
-            annotationView.animatesDrop = YES;
-            annotationView.draggable = YES;
-            annotationView.selected = YES;
+            [annotationView setCalloutOffset:CGPointMake(0, -10)];
+            
+            _animationPinAnnotationView = annotationView;
         }
         
         if (_dvImage) {
             annotationView.image = _dvImage;
+        }else{
+            annotationView.pinColor = BMKPinAnnotationColorGreen;
+        }
+        
+        return annotationView;
+    }
+    
+    if ([annotation isKindOfClass:[MovePointAnnotation class]]) {
+        NSString *AnnotationViewID = @"moveMark";
+        BMKPinAnnotationView *annotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationViewID];
+        if (annotationView == nil) {
+            annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
+            
+            BMKActionPaopaoView *paopao=[[BMKActionPaopaoView alloc] initWithCustomView:self.locatePaopao];
+            annotationView.paopaoView = paopao;
+        }
+        
+        if (_moveImage) {
+            annotationView.image = _moveImage;
         }else{
             annotationView.pinColor = BMKPinAnnotationColorGreen;
         }
@@ -219,17 +268,6 @@
     return nil;
 }
 
-- (void)pinAnimation
-{
-    CGRect endRect = _pinView.frame;
-    _pinView.calloutOffset = CGPointMake(0, -15);
-    [UIView animateWithDuration:1 delay:0 options:0.2 animations:^{
-        
-    } completion:^(BOOL finished) {
-        _pinView.frame = endRect;
-    }];
-}
-
 //根据overlay生成对应的View
 - (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id <BMKOverlay>)overlay
 {
@@ -249,8 +287,11 @@
 {
     //走此函数说明有值
     if ([view.reuseIdentifier isEqualToString:@"deviceMark"]) {
+
+        [UIView animateWithDuration:0.3f animations:^{
+            view.transform = CGAffineTransformScale(view.transform, 1.2f, 1.2f);
+        }];
         
-        NSLog(@"I am renameMark.");
         
     }else if([view.reuseIdentifier isEqualToString:@"guijiMark"]){
         
@@ -264,10 +305,16 @@
     }
 }
 
-- (void)mapView:(BMKMapView *)mapView didAddAnnotationViews:(NSArray *)views
+- (void)mapView:(BMKMapView *)mapView didDeselectAnnotationView:(BMKAnnotationView *)view
 {
-    NSLog(@"=======%d",views.count);
+    if ([view.reuseIdentifier isEqualToString:@"deviceMark"]) {
+
+        [UIView animateWithDuration:0.3f animations:^{
+            view.transform = CGAffineTransformIdentity;
+        }];
+    }
 }
+
 #pragma mark ============================== 父类方法 ==============================
 - (void)setMapDispalyType:(MapDisplayType)mapDispalyType
 {
@@ -373,10 +420,20 @@
             [_locatePaopao setTitle:@"反转失败"];
         }];
     }
+    
+    //大头针动画
+    CGRect endFrame = _animationPinAnnotationView.frame;
+    _animationPinAnnotationView.frame = CGRectOffset(endFrame, 0.f, -30.f);
+    [UIView animateWithDuration:2.f delay:0.f usingSpringWithDamping:0.3f initialSpringVelocity:0.f options:UIViewAnimationOptionLayoutSubviews animations:^{
+        
+        _animationPinAnnotationView.frame = endFrame;
+    } completion:^(BOOL finished) {
+        
+    }];
+
 }
 
 #pragma mark ============================== 轨迹操作 ==============================
-
 - (void)jany_pathMoveWithData:(NSArray *)dataArr startImage:(UIImage *)startImage endImage:(UIImage *)endImage
 {
     [self jany_pathMoveWithData:dataArr startImage:startImage middleImage:nil endImage:endImage lineWidth:4 lineColor:[UIColor redColor]];
@@ -438,6 +495,33 @@
         [self guijiAnnotation:dataArr];
     }else{
         [self guijiNoAnnotation:dataArr];
+    }
+}
+
+- (void)jany_pathMoveWithData:(NSArray *)dataArr moveImage:(UIImage *)moveImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
+{
+    if (dataArr.count == 0) {
+        [_myMap removeAnnotation:_movePointAnnotation];
+        return;
+    }
+
+    CLLocationCoordinate2D coors[dataArr.count];
+    for (int i = 0; i < dataArr.count; i ++) {
+        
+        Model *model = dataArr[i];
+        CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(model.lat,model.lon);
+        coors[i] = LL;
+    }
+    
+    _moveImage = moveImage;
+    _guijiLineWidth = width;
+    _guijiLineColor = lineColor;
+    
+    [self.movePointAnnotation setCoordinate:coors[dataArr.count - 1]];
+    [_myMap addAnnotation:_movePointAnnotation];
+    
+    if ([self.movePolyLine setPolylineWithCoordinates:coors count:dataArr.count]) {
+        [_myMap addOverlay: _movePolyLine];
     }
 }
 

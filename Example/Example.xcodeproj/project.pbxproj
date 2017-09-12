@@ -33,6 +33,9 @@
 		317B8DCE1F6118B70069BEA1 /* JZLocationConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DCD1F6118B70069BEA1 /* JZLocationConverter.m */; };
 		317B8DD11F61260A0069BEA1 /* JanyGeoCodeSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DD01F61260A0069BEA1 /* JanyGeoCodeSearch.m */; };
 		317B8DD41F6137D10069BEA1 /* PointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DD31F6137D10069BEA1 /* PointAnnotation.m */; };
+		319161E61F6770FE005C0B51 /* MovePolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161E51F6770FE005C0B51 /* MovePolyline.m */; };
+		319161E91F677205005C0B51 /* MovePointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161E81F677205005C0B51 /* MovePointAnnotation.m */; };
+		319161EC1F677C2A005C0B51 /* DVPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161EB1F677C2A005C0B51 /* DVPinAnnotationView.m */; };
 		31AE802F1F6230D500531E54 /* PaopaoCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE802E1F6230D500531E54 /* PaopaoCustomView.m */; };
 		31AE80321F62675700531E54 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE80311F62675700531E54 /* Model.m */; };
 		31AE80351F627B5F00531E54 /* GuiJiAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE80341F627B5F00531E54 /* GuiJiAnnotation.m */; };
@@ -88,6 +91,12 @@
 		317B8DD01F61260A0069BEA1 /* JanyGeoCodeSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JanyGeoCodeSearch.m; sourceTree = "<group>"; };
 		317B8DD21F6137D10069BEA1 /* PointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAnnotation.h; sourceTree = "<group>"; };
 		317B8DD31F6137D10069BEA1 /* PointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointAnnotation.m; sourceTree = "<group>"; };
+		319161E41F6770FE005C0B51 /* MovePolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovePolyline.h; sourceTree = "<group>"; };
+		319161E51F6770FE005C0B51 /* MovePolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovePolyline.m; sourceTree = "<group>"; };
+		319161E71F677205005C0B51 /* MovePointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovePointAnnotation.h; sourceTree = "<group>"; };
+		319161E81F677205005C0B51 /* MovePointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovePointAnnotation.m; sourceTree = "<group>"; };
+		319161EA1F677C2A005C0B51 /* DVPinAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVPinAnnotationView.h; sourceTree = "<group>"; };
+		319161EB1F677C2A005C0B51 /* DVPinAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVPinAnnotationView.m; sourceTree = "<group>"; };
 		31AE802D1F6230D500531E54 /* PaopaoCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaopaoCustomView.h; sourceTree = "<group>"; };
 		31AE802E1F6230D500531E54 /* PaopaoCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaopaoCustomView.m; sourceTree = "<group>"; };
 		31AE80301F62675700531E54 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
@@ -214,8 +223,14 @@
 				317B8DD31F6137D10069BEA1 /* PointAnnotation.m */,
 				31AE80331F627B5F00531E54 /* GuiJiAnnotation.h */,
 				31AE80341F627B5F00531E54 /* GuiJiAnnotation.m */,
+				319161E71F677205005C0B51 /* MovePointAnnotation.h */,
+				319161E81F677205005C0B51 /* MovePointAnnotation.m */,
 				31AE802D1F6230D500531E54 /* PaopaoCustomView.h */,
 				31AE802E1F6230D500531E54 /* PaopaoCustomView.m */,
+				319161E41F6770FE005C0B51 /* MovePolyline.h */,
+				319161E51F6770FE005C0B51 /* MovePolyline.m */,
+				319161EA1F677C2A005C0B51 /* DVPinAnnotationView.h */,
+				319161EB1F677C2A005C0B51 /* DVPinAnnotationView.m */,
 			);
 			path = Baidu;
 			sourceTree = "<group>";
@@ -451,15 +466,18 @@
 				317147D81F5FE83F001ED7EB /* JanyBaiduMapView.m in Sources */,
 				317B8DC81F60D3460069BEA1 /* UserLocation.m in Sources */,
 				317B8DCE1F6118B70069BEA1 /* JZLocationConverter.m in Sources */,
+				319161E91F677205005C0B51 /* MovePointAnnotation.m in Sources */,
 				317B8DD41F6137D10069BEA1 /* PointAnnotation.m in Sources */,
 				317147A31F5FE349001ED7EB /* AppDelegate.m in Sources */,
 				317147DB1F5FE84B001ED7EB /* JanyGoogleMapView.m in Sources */,
 				317147DE1F5FE851001ED7EB /* JanyMAMapMapView.m in Sources */,
 				317147D11F5FE5B6001ED7EB /* README.md in Sources */,
 				317147A01F5FE349001ED7EB /* main.m in Sources */,
+				319161E61F6770FE005C0B51 /* MovePolyline.m in Sources */,
 				31AE80321F62675700531E54 /* Model.m in Sources */,
 				31AE802F1F6230D500531E54 /* PaopaoCustomView.m in Sources */,
 				317147D51F5FE82B001ED7EB /* JanyBaseMapView.m in Sources */,
+				319161EC1F677C2A005C0B51 /* DVPinAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

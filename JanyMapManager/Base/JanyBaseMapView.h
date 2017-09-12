@@ -187,8 +187,10 @@ typedef void (^ReverseFail)(void);
 
  @param dataArr 变化的数据，slider来控制
  @param moveImage 蛇头图片
+ @param width 轨迹线的宽度
+ @param lineColor 轨迹的颜色
  */
-- (void)jany_pathMoveWithData:(NSArray *)dataArr moveImage:(UIImage *)moveImage;
+- (void)jany_pathMoveWithData:(NSArray *)dataArr moveImage:(UIImage *)moveImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
 #pragma mark ============================== 电子围栏 ==============================
 
 /**
