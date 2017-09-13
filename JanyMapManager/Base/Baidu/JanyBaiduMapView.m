@@ -10,6 +10,7 @@
 #import <BaiduMapAPI_Map/BMKMapComponent.h>
 #import <BaiduMapAPI_Search/BMKPoiSearch.h>
 #import <BaiduMapAPI_Utils/BMKGeometry.h>
+#import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
 #import "UserLocation.h"
 #import "JanyGeoCodeSearch.h"
 #import "PointAnnotation.h"
@@ -18,6 +19,7 @@
 #import "MovePolyline.h"
 #import "MovePointAnnotation.h"
 #import "FenceCentreAnnotation.h"
+#import "BMKClusterManager.h"
 
 @interface JanyBaiduMapView ()<BMKMapViewDelegate>
 {
@@ -39,7 +41,9 @@
     UIImage *_fenceImage;
     NSArray *_guijiModelArray;
     NSMutableArray *_coordinate2DArray;
-    NSMutableArray *_guijiAnnotationArray;
+
+    NSInteger _clusterZoom;//聚合级别
+    NSMutableArray *_clusterCaches;//点聚合缓存标注
 }
 @property (nonatomic, strong)BMKMapView *myMap;
 @property (nonatomic, strong)UserLocation *myPosition;
@@ -51,6 +55,7 @@
 @property (nonatomic, strong)MovePointAnnotation *movePointAnnotation;
 @property (nonatomic, strong)BMKPinAnnotationView *animationPinAnnotationView;
 @property (nonatomic, strong)FenceCentreAnnotation *fenceAnnotation;
+@property (nonatomic, strong)BMKClusterManager *clusterManager;
 @end
 
 @implementation JanyBaiduMapView
@@ -60,7 +65,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         _dvCLLocation = CLLocationCoordinate2DMake(11110, 111110);
-        _guijiAnnotationArray = [NSMutableArray array];
         [self addSubview:self.myMap];
     }
     return self;
@@ -71,7 +75,6 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         _dvCLLocation = CLLocationCoordinate2DMake(11110, 111110);
-        _guijiAnnotationArray = [NSMutableArray array];
         [self addSubview:self.myMap];
     }
     return self;
@@ -143,6 +146,14 @@
     }
     return _locatePaopao;
 }
+
+- (BMKClusterManager *)clusterManager
+{
+    if (!_clusterManager) {
+        _clusterManager = [[BMKClusterManager alloc] init];
+    }
+    return _clusterManager;
+}
 #pragma mark ============================== 定位手机的当前位置 ==============================
 - (UserLocation *)myPosition
 {
@@ -184,6 +195,19 @@
     }
 }
 
+- (void)mapViewDidFinishLoading:(BMKMapView *)mapView
+{
+    if (_coordinate2DArray.count > 0) {
+        [self updateClusters];
+    }
+}
+
+- (void)mapView:(BMKMapView *)mapView onDrawMapFrame:(BMKMapStatus *)status {
+    if (_clusterZoom != 0 && _clusterZoom != (NSInteger)mapView.zoomLevel && _coordinate2DArray.count > 0) {
+        [self updateClusters];
+    }
+}
+
 //根据anntation生成对应的View
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation
 {
@@ -215,9 +239,10 @@
         if (annotationView == nil) {
             annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
             
-            BMKActionPaopaoView *paopao=[[BMKActionPaopaoView alloc] initWithCustomView:[[PaopaoCustomView alloc] initWithFrame:CGRectMake(0.f, 0.f, 200.f, 100.f)]];
-            annotationView.paopaoView = paopao;
         }
+        
+        BMKActionPaopaoView *paopao=[[BMKActionPaopaoView alloc] initWithCustomView:[[PaopaoCustomView alloc] initWithFrame:CGRectMake(0.f, 0.f, 200.f, 100.f)]];
+        annotationView.paopaoView = paopao;
         
         if (_moveImage) {
             annotationView.image = _moveImage;
@@ -237,10 +262,11 @@
         if (annotationView == nil) {
             annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
 
-            BMKActionPaopaoView *paopao = [[BMKActionPaopaoView alloc] initWithCustomView:[[PaopaoCustomView alloc] initWithFrame:CGRectMake(0.f, 0.f, 200.f, 100.f)]];
-            annotationView.paopaoView = paopao;
         }
         
+        BMKActionPaopaoView *paopao = [[BMKActionPaopaoView alloc] initWithCustomView:[[PaopaoCustomView alloc] initWithFrame:CGRectMake(0.f, 0.f, 200.f, 100.f)]];
+        annotationView.paopaoView = paopao;
+        [annotationView setCalloutOffset:CGPointMake(0, -10)];
 
         if ([_coordinate2DArray indexOfObject:dic] == 0) {
             //轨迹起点
@@ -260,8 +286,10 @@
             
         }else{
             
+            
             //中间点,如果要区分中间点的定位类型，可以根据_guijiModelArray的model类型来切换图片
             Model *model = _guijiModelArray[[_coordinate2DArray indexOfObject:dic]];
+    
             if (model.type == 0) {
                 annotationView.image = _wifiImage;
             }else if (model.type == 1){
@@ -271,9 +299,7 @@
             }else{
                 annotationView.image = _middleImage;
             }
-            
-            NSLog(@"----%d",model.type);
-            
+        
         }
         
         return annotationView;
@@ -310,10 +336,13 @@
             view.transform = CGAffineTransformScale(view.transform, 1.2f, 1.2f);
         }];
         
-        
     }else if([view.reuseIdentifier isEqualToString:@"guijiMark"]){
         
         PaopaoCustomView *linePaopao = view.paopaoView.subviews[0];
+        
+        [UIView animateWithDuration:0.3f animations:^{
+            view.transform = CGAffineTransformScale(view.transform, 1.2f, 1.2f);
+        }];
         
         [self.geoCodeSearch reverseWithCoordinate2D:view.annotation.coordinate success:^(BMKReverseGeoCodeResult *result) {
             [linePaopao setTitle:result.address];
@@ -336,6 +365,12 @@
 {
     if ([view.reuseIdentifier isEqualToString:@"deviceMark"]) {
 
+        [UIView animateWithDuration:0.3f animations:^{
+            view.transform = CGAffineTransformIdentity;
+        }];
+        
+    }else if ([view.reuseIdentifier isEqualToString:@"guijiMark"]){
+        
         [UIView animateWithDuration:0.3f animations:^{
             view.transform = CGAffineTransformIdentity;
         }];
@@ -509,15 +544,6 @@
 
 - (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
 {
-    /*
-     百度地图画轨迹不会出现卡顿现象
-     若果在轨迹点上一次添加的大头针的数量太多会造成卡顿现象，这样会影响体验感
-      |
-     \|/
-     解决这种情况：
-     此方法值调用一次，然后对数据进行分段处理，绘制完成之后再绘制下一组数据
-     */
-    
     _startImage = startImage;
     _endImage = endImage;
     _middleImage = img;
@@ -563,39 +589,43 @@
         return;
     }
 
-    CLLocationCoordinate2D coors[dataArr.count];
-    for (int i = 0; i < dataArr.count; i ++) {
-        
-        Model *model = dataArr[i];
-        CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(model.lat,model.lon);
-        if (llType == Wgs84) {//坐标转换
-            LL = [JZLocationConverter wgs84ToBd09:LL];
-        }else if (llType == Gcj02){
-            LL = [JZLocationConverter gcj02ToBd09:LL];
-        }else{
-            LL = LL;
+    @synchronized(dataArr){
+    
+        CLLocationCoordinate2D coors[dataArr.count];
+        for (int i = 0; i < dataArr.count; i ++) {
+            
+            Model *model = dataArr[i];
+            CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(model.lat,model.lon);
+            if (llType == Wgs84) {//坐标转换
+                LL = [JZLocationConverter wgs84ToBd09:LL];
+            }else if (llType == Gcj02){
+                LL = [JZLocationConverter gcj02ToBd09:LL];
+            }else{
+                LL = LL;
+            }
+            
+            coors[i] = LL;
         }
         
-        coors[i] = LL;
-    }
-    
-    _moveImage = moveImage;
-    _guijiLineWidth = width;
-    _guijiLineColor = lineColor;
-    
-    [self.movePointAnnotation setCoordinate:coors[dataArr.count - 1]];
-    [_myMap addAnnotation:_movePointAnnotation];
-    
-    if ([self.movePolyLine setPolylineWithCoordinates:coors count:dataArr.count]) {
-        [_myMap addOverlay: _movePolyLine];
+        _moveImage = moveImage;
+        _guijiLineWidth = width;
+        _guijiLineColor = lineColor;
+        
+        [self.movePointAnnotation setCoordinate:coors[dataArr.count - 1]];
+        [_myMap addAnnotation:_movePointAnnotation];
+        
+        if ([self.movePolyLine setPolylineWithCoordinates:coors count:dataArr.count]) {
+            [_myMap addOverlay: _movePolyLine];
+        }
     }
 }
 
 - (void)guijiNoAnnotation:(NSArray *)arr coordinate2DType:(Coordinate2DType)llType
 {
-    [_myMap removeAnnotations:_guijiAnnotationArray];
-    [_guijiAnnotationArray removeAllObjects];
+    [_myMap removeOverlays:_myMap.overlays];
+    [_myMap removeAnnotations:_myMap.annotations];
     
+    NSMutableArray *guijiAnnotationArray = [NSMutableArray array];
     _coordinate2DArray = [NSMutableArray arrayWithCapacity:12];
     CLLocationCoordinate2D coors[arr.count];
     
@@ -614,15 +644,18 @@
         
         coors[i] = LL;
 
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:model.lat],@"lat",[NSNumber numberWithDouble:model.lon],@"lon", nil];
-        [_coordinate2DArray addObject:dic];
-        
-        GuiJiAnnotation *annotation = [[GuiJiAnnotation alloc] init];
-        [annotation setCoordinate:LL];
-        [_guijiAnnotationArray addObject:annotation];
+        if (i == 0 || i == arr.count - 1) {
+            
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:model.lat],@"lat",[NSNumber numberWithDouble:model.lon],@"lon", nil];
+            [_coordinate2DArray addObject:dic];
+         
+            GuiJiAnnotation *annotation = [[GuiJiAnnotation alloc] init];
+            [annotation setCoordinate:LL];
+            [guijiAnnotationArray addObject:annotation];
+        }
     }
     
-    [_myMap addAnnotations:_guijiAnnotationArray];
+    [_myMap addAnnotations:guijiAnnotationArray];
     
     if ([self.guijiLine setPolylineWithCoordinates:coors count:arr.count]) {
         [_myMap addOverlay: _guijiLine];
@@ -632,18 +665,20 @@
 
 - (void)guijiAnnotation:(NSArray *)arr coordinate2DType:(Coordinate2DType)llType
 {
-    [_myMap removeAnnotations:_guijiAnnotationArray];
-    [_guijiAnnotationArray removeAllObjects];
+    [_myMap removeOverlays:_myMap.overlays];
+    [_myMap removeAnnotations:_myMap.annotations];
+    [self.clusterManager clearClusterItems];
     
     _coordinate2DArray = [NSMutableArray arrayWithCapacity:12];
-    NSMutableArray *snapArray = [NSMutableArray array];
     CLLocationCoordinate2D coors[arr.count];
     
-    int snapValue = 0;
+    _clusterCaches = [[NSMutableArray alloc] init];
+    for (NSInteger i = 3; i < 22; i++) {
+        [_clusterCaches addObject:[NSMutableArray array]];
+    }
     
     for (int i = 0; i < arr.count; i ++) {
-        
-        snapValue ++;
+    
         Model *model = arr[i];
         CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(model.lat,model.lon);
         
@@ -660,33 +695,55 @@
         NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:model.lat],@"lat",[NSNumber numberWithDouble:model.lon],@"lon", nil];
         [_coordinate2DArray addObject:dic];
         
-        GuiJiAnnotation *annotation = [[GuiJiAnnotation alloc] init];
-        [annotation setCoordinate:LL];
-        [_guijiAnnotationArray addObject:annotation];
-        [snapArray addObject:annotation];
-        
-//        if (snapValue == 1) {
-//            
-//            snapValue = 0;
-//            [_myMap addAnnotations:snapArray];
-//            [snapArray removeAllObjects];
-//        }
+        BMKClusterItem *clusterItem = [[BMKClusterItem alloc] init];
+        clusterItem.coor = LL;
+        [self.clusterManager addClusterItem:clusterItem];
     }
     
-    [_myMap addAnnotations:snapArray];
+    [self updateClusters];
+    
     if ([self.guijiLine setPolylineWithCoordinates:coors count:arr.count]) {
         [_myMap addOverlay: _guijiLine];
         [self mapViewFitPolyLine:_guijiLine];
     }
 }
 
+#pragma mark ============================== 更新聚合状态 ==============================
+- (void)updateClusters {
+    
+    _clusterZoom = (NSInteger)_myMap.zoomLevel;
+    @synchronized(_clusterCaches) {
+        __block NSMutableArray *clusters = [_clusterCaches objectAtIndex:(_clusterZoom - 3)];
+        
+        if (clusters.count > 0) {
+            [_myMap removeAnnotations:_myMap.annotations];
+            [_myMap addAnnotations:clusters];
+        } else {
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                
+                ///获取聚合后的标注
+                __block NSArray *array = [_clusterManager getClusters:_clusterZoom];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    for (BMKCluster *item in array) {
+                        GuiJiAnnotation *annotation = [[GuiJiAnnotation alloc] init];
+                        [annotation setCoordinate:item.coordinate];
+                        [clusters addObject:annotation];
+                    }
+                    [_myMap removeAnnotations:_myMap.annotations];
+                    [_myMap addAnnotations:clusters];
+                });
+            });
+        }
+    }
+}
+
+
 - (void)jany_cleanAllPath
 {
-    [_myMap removeOverlay:_guijiLine];
-    [_myMap removeOverlay:_movePolyLine];
-    [_myMap removeAnnotations:_coordinate2DArray];
-    [_myMap removeAnnotation:_movePointAnnotation];
-    [_myMap removeAnnotations:_guijiAnnotationArray];
+    [_coordinate2DArray removeAllObjects];
+    [_myMap removeOverlays:_myMap.overlays];
+    [_myMap removeAnnotations:_myMap.annotations];
 }
 
 #pragma mark ============================== 电子围栏 ==============================

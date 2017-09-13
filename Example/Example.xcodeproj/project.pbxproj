@@ -38,6 +38,10 @@
 		319161EC1F677C2A005C0B51 /* DVPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161EB1F677C2A005C0B51 /* DVPinAnnotationView.m */; };
 		319161EF1F67D74D005C0B51 /* FenceCentreAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161EE1F67D74D005C0B51 /* FenceCentreAnnotation.m */; };
 		319161F11F67DD8F005C0B51 /* arrowTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 319161F01F67DD8F005C0B51 /* arrowTexture.png */; };
+		31A8BBF21F68BB800027A107 /* BMKClusterAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A8BBEB1F68BB800027A107 /* BMKClusterAlgorithm.m */; };
+		31A8BBF31F68BB800027A107 /* BMKClusterItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A8BBED1F68BB800027A107 /* BMKClusterItem.m */; };
+		31A8BBF41F68BB800027A107 /* BMKClusterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A8BBEF1F68BB800027A107 /* BMKClusterManager.m */; };
+		31A8BBF51F68BB800027A107 /* BMKClusterQuadtree.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A8BBF11F68BB800027A107 /* BMKClusterQuadtree.m */; };
 		31AE802F1F6230D500531E54 /* PaopaoCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE802E1F6230D500531E54 /* PaopaoCustomView.m */; };
 		31AE80321F62675700531E54 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE80311F62675700531E54 /* Model.m */; };
 		31AE80351F627B5F00531E54 /* GuiJiAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE80341F627B5F00531E54 /* GuiJiAnnotation.m */; };
@@ -102,6 +106,14 @@
 		319161ED1F67D74D005C0B51 /* FenceCentreAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FenceCentreAnnotation.h; sourceTree = "<group>"; };
 		319161EE1F67D74D005C0B51 /* FenceCentreAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FenceCentreAnnotation.m; sourceTree = "<group>"; };
 		319161F01F67DD8F005C0B51 /* arrowTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowTexture.png; sourceTree = "<group>"; };
+		31A8BBEA1F68BB800027A107 /* BMKClusterAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMKClusterAlgorithm.h; sourceTree = "<group>"; };
+		31A8BBEB1F68BB800027A107 /* BMKClusterAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMKClusterAlgorithm.m; sourceTree = "<group>"; };
+		31A8BBEC1F68BB800027A107 /* BMKClusterItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMKClusterItem.h; sourceTree = "<group>"; };
+		31A8BBED1F68BB800027A107 /* BMKClusterItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMKClusterItem.m; sourceTree = "<group>"; };
+		31A8BBEE1F68BB800027A107 /* BMKClusterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMKClusterManager.h; sourceTree = "<group>"; };
+		31A8BBEF1F68BB800027A107 /* BMKClusterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMKClusterManager.m; sourceTree = "<group>"; };
+		31A8BBF01F68BB800027A107 /* BMKClusterQuadtree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMKClusterQuadtree.h; sourceTree = "<group>"; };
+		31A8BBF11F68BB800027A107 /* BMKClusterQuadtree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMKClusterQuadtree.m; sourceTree = "<group>"; };
 		31AE802D1F6230D500531E54 /* PaopaoCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaopaoCustomView.h; sourceTree = "<group>"; };
 		31AE802E1F6230D500531E54 /* PaopaoCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaopaoCustomView.m; sourceTree = "<group>"; };
 		31AE80301F62675700531E54 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
@@ -239,6 +251,7 @@
 				319161E51F6770FE005C0B51 /* MovePolyline.m */,
 				319161EA1F677C2A005C0B51 /* DVPinAnnotationView.h */,
 				319161EB1F677C2A005C0B51 /* DVPinAnnotationView.m */,
+				31A8BBE91F68BB800027A107 /* Cluster */,
 			);
 			path = Baidu;
 			sourceTree = "<group>";
@@ -278,6 +291,21 @@
 				317147CC1F5FE5B6001ED7EB /* README.md */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		31A8BBE91F68BB800027A107 /* Cluster */ = {
+			isa = PBXGroup;
+			children = (
+				31A8BBEA1F68BB800027A107 /* BMKClusterAlgorithm.h */,
+				31A8BBEB1F68BB800027A107 /* BMKClusterAlgorithm.m */,
+				31A8BBEC1F68BB800027A107 /* BMKClusterItem.h */,
+				31A8BBED1F68BB800027A107 /* BMKClusterItem.m */,
+				31A8BBEE1F68BB800027A107 /* BMKClusterManager.h */,
+				31A8BBEF1F68BB800027A107 /* BMKClusterManager.m */,
+				31A8BBF01F68BB800027A107 /* BMKClusterQuadtree.h */,
+				31A8BBF11F68BB800027A107 /* BMKClusterQuadtree.m */,
+			);
+			path = Cluster;
 			sourceTree = "<group>";
 		};
 		53028841E145E652FD92383F /* Pods */ = {
@@ -474,7 +502,9 @@
 				31AE80351F627B5F00531E54 /* GuiJiAnnotation.m in Sources */,
 				317147D81F5FE83F001ED7EB /* JanyBaiduMapView.m in Sources */,
 				319161EF1F67D74D005C0B51 /* FenceCentreAnnotation.m in Sources */,
+				31A8BBF41F68BB800027A107 /* BMKClusterManager.m in Sources */,
 				317B8DC81F60D3460069BEA1 /* UserLocation.m in Sources */,
+				31A8BBF51F68BB800027A107 /* BMKClusterQuadtree.m in Sources */,
 				317B8DCE1F6118B70069BEA1 /* JZLocationConverter.m in Sources */,
 				319161E91F677205005C0B51 /* MovePointAnnotation.m in Sources */,
 				317B8DD41F6137D10069BEA1 /* PointAnnotation.m in Sources */,
@@ -484,6 +514,8 @@
 				317147D11F5FE5B6001ED7EB /* README.md in Sources */,
 				317147A01F5FE349001ED7EB /* main.m in Sources */,
 				319161E61F6770FE005C0B51 /* MovePolyline.m in Sources */,
+				31A8BBF21F68BB800027A107 /* BMKClusterAlgorithm.m in Sources */,
+				31A8BBF31F68BB800027A107 /* BMKClusterItem.m in Sources */,
 				31AE80321F62675700531E54 /* Model.m in Sources */,
 				31AE802F1F6230D500531E54 /* PaopaoCustomView.m in Sources */,
 				317147D51F5FE82B001ED7EB /* JanyBaseMapView.m in Sources */,

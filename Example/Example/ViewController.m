@@ -25,7 +25,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    _flag = YES;
+    _flag = NO;
     map = [[JanyBaiduMapView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:map];
     [map startLocationSuccess:^{
@@ -147,37 +147,40 @@
 //        NSLog(@"fail");
 //    }];
     
-    
+
     if (_flag) {
         
         _flag = NO;
-        CLLocationCoordinate2D coors[12];
-        coors[0] = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
-        coors[1] = CLLocationCoordinate2DMake(22.571082523507, 113.90489842423);
-        coors[2] = CLLocationCoordinate2DMake(22.571030147266, 113.90458044929);
-        coors[3] = CLLocationCoordinate2DMake(22.571076901093, 113.90400776584);
-        coors[4] = CLLocationCoordinate2DMake(22.571090775253, 113.90383739502);
-        coors[5] = CLLocationCoordinate2DMake(22.571269494089, 113.90343044001);
-        coors[6] = CLLocationCoordinate2DMake(22.571270547492, 113.90335423128);
-        coors[7] = CLLocationCoordinate2DMake(22.57135417857, 113.90323699237);
-        coors[8] = CLLocationCoordinate2DMake(22.571785734488, 113.90283532769);
-        coors[9] = CLLocationCoordinate2DMake(22.571845558947, 113.90262582616);
-        coors[10] = CLLocationCoordinate2DMake(22.573396860615, 113.90112740338);
-        coors[11] = CLLocationCoordinate2DMake(22.57440620437, 113.90014707411);
+//        CLLocationCoordinate2D coors[12];
+//        coors[0] = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
+//        coors[1] = CLLocationCoordinate2DMake(22.571082523507, 113.90489842423);
+//        coors[2] = CLLocationCoordinate2DMake(22.571030147266, 113.90458044929);
+//        coors[3] = CLLocationCoordinate2DMake(22.571076901093, 113.90400776584);
+//        coors[4] = CLLocationCoordinate2DMake(22.571090775253, 113.90383739502);
+//        coors[5] = CLLocationCoordinate2DMake(22.571269494089, 113.90343044001);
+//        coors[6] = CLLocationCoordinate2DMake(22.571270547492, 113.90335423128);
+//        coors[7] = CLLocationCoordinate2DMake(22.57135417857, 113.90323699237);
+//        coors[8] = CLLocationCoordinate2DMake(22.571785734488, 113.90283532769);
+//        coors[9] = CLLocationCoordinate2DMake(22.571845558947, 113.90262582616);
+//        coors[10] = CLLocationCoordinate2DMake(22.573396860615, 113.90112740338);
+//        coors[11] = CLLocationCoordinate2DMake(22.57440620437, 113.90014707411);
         
-        
+        CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
         NSMutableArray *arr = [NSMutableArray arrayWithCapacity:12];
-        for (int i = 0; i < 12; i ++) {
-            
+        for (int i = 0; i < 100; i ++) {
+            double lat =  (arc4random() % 100) * 0.001f;
+            double lon =  (arc4random() % 100) * 0.001f;
             Model *model = [[Model alloc] init];
-            model.lat = coors[i].latitude;
-            model.lon = coors[i].longitude;
+            model.lat = coor.latitude + lat;
+            model.lon = coor.longitude + lon;
             model.title = [NSString stringWithFormat:@"%d",i];
             
             [arr addObject:model];
         }
         
-        [map jany_pathMoveWithData:arr coordinate2DType:Bd09 startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.5]];
+//        [map jany_pathMoveWithData:arr coordinate2DType:Bd09 startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.5]];
+        
+        [map jany_pathMoveWithData:arr coordinate2DType:Bd09 startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.3]];
         
 //        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[UIColor greenColor]];
         
