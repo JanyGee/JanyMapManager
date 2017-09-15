@@ -72,6 +72,16 @@
 {
 
 }
+
+- (void)jany_locateWithCoordinate2Ds:(NSArray *)inforArray annotationImage:(UIImage *)annotationImage
+{
+
+}
+
+- (void)jany_locateWithCoordinate2Ds:(NSArray *)inforArray annotationImages:(NSArray *)annotationImages
+{
+
+}
 #pragma mark ============================== 轨迹操作 ==============================
 - (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage endImage:(UIImage *)endImage
 {

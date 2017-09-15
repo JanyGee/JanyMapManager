@@ -66,6 +66,8 @@
     if (self) {
         _dvCLLocation = CLLocationCoordinate2DMake(11110, 111110);
         [self addSubview:self.myMap];
+        
+        [self initDataForMap];
     }
     return self;
 }
@@ -76,6 +78,9 @@
     if (self) {
         _dvCLLocation = CLLocationCoordinate2DMake(11110, 111110);
         [self addSubview:self.myMap];
+        
+        [self initDataForMap];
+
     }
     return self;
 }
@@ -153,6 +158,14 @@
         _clusterManager = [[BMKClusterManager alloc] init];
     }
     return _clusterManager;
+}
+
+#pragma mark ============================== 初始化数据 ==============================
+- (void)initDataForMap
+{
+    _coordinate2DArray = [NSMutableArray arrayWithCapacity:20];
+    _guijiModelArray = [NSArray array];
+
 }
 #pragma mark ============================== 定位手机的当前位置 ==============================
 - (UserLocation *)myPosition
@@ -288,16 +301,23 @@
             
             
             //中间点,如果要区分中间点的定位类型，可以根据_guijiModelArray的model类型来切换图片
-            Model *model = _guijiModelArray[[_coordinate2DArray indexOfObject:dic]];
-    
-            if (model.type == 0) {
-                annotationView.image = _wifiImage;
-            }else if (model.type == 1){
-                annotationView.image = _gpsImage;
-            }else if (model.type == 2){
-                annotationView.image = _lbsImage;
-            }else{
-                annotationView.image = _middleImage;
+            //NSLog(@"%d----%d",_coordinate2DArray.count,_guijiModelArray.count);
+            NSUInteger index = [_coordinate2DArray indexOfObject:dic];
+            NSAssert(index != NSNotFound, @"数组里面的数据还没有完全同步，造成数据不一致");
+            if (index != NSNotFound) {
+                
+                Model *model = _guijiModelArray[index];
+                
+                if (model.type == 0) {
+                    annotationView.image = _wifiImage;
+                }else if (model.type == 1){
+                    annotationView.image = _gpsImage;
+                }else if (model.type == 2){
+                    annotationView.image = _lbsImage;
+                }else{
+                    annotationView.image = _middleImage;
+                }
+                
             }
         
         }
@@ -549,16 +569,24 @@
     _middleImage = img;
     _guijiLineWidth = width;
     _guijiLineColor = lineColor;
-    _guijiModelArray = [NSArray arrayWithArray:dataArr];
+    
     
     _wifiImage = nil;
     _gpsImage = nil;
     _lbsImage = nil;
 
     if (img) {
-        [self guijiAnnotation:dataArr coordinate2DType:llType];
+        
+        @synchronized (dataArr) {
+            
+            [self guijiAnnotation:dataArr coordinate2DType:llType];
+        }
     }else{
-        [self guijiNoAnnotation:dataArr coordinate2DType:llType];
+        
+        @synchronized (dataArr) {
+
+            [self guijiNoAnnotation:dataArr coordinate2DType:llType];
+        }
     }
     
 }
@@ -573,12 +601,21 @@
     _middleImage = nil;
     _guijiLineWidth = width;
     _guijiLineColor = lineColor;
-    _guijiModelArray = [NSArray arrayWithArray:dataArr];
+    
     
     if (wifiImgae || gpsImage || lbsImage) {
-        [self guijiAnnotation:dataArr coordinate2DType:llType];
+        
+        @synchronized (dataArr) {
+
+            [self guijiAnnotation:dataArr coordinate2DType:llType];
+        }
+        
     }else{
-        [self guijiNoAnnotation:dataArr coordinate2DType:llType];
+        
+        @synchronized (dataArr) {
+            
+            [self guijiNoAnnotation:dataArr coordinate2DType:llType];
+        }
     }
 }
 
@@ -611,12 +648,21 @@
         _guijiLineWidth = width;
         _guijiLineColor = lineColor;
         
-        [self.movePointAnnotation setCoordinate:coors[dataArr.count - 1]];
-        [_myMap addAnnotation:_movePointAnnotation];
+        CLLocationCoordinate2D lastLL = coors[dataArr.count - 1];
         
         if ([self.movePolyLine setPolylineWithCoordinates:coors count:dataArr.count]) {
             [_myMap addOverlay: _movePolyLine];
         }
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            
+            [self.movePointAnnotation setCoordinate:lastLL];
+            
+        } completion:^(BOOL finished) {
+            
+            [_myMap addAnnotation:_movePointAnnotation];
+
+        }];
     }
 }
 
@@ -626,8 +672,8 @@
     [_myMap removeAnnotations:_myMap.annotations];
     
     NSMutableArray *guijiAnnotationArray = [NSMutableArray array];
-    _coordinate2DArray = [NSMutableArray arrayWithCapacity:12];
     CLLocationCoordinate2D coors[arr.count];
+    [_coordinate2DArray removeAllObjects];
     
     for (int i = 0; i < arr.count; i ++) {
         
@@ -655,12 +701,15 @@
         }
     }
     
+    _guijiModelArray = [arr copy];
     [_myMap addAnnotations:guijiAnnotationArray];
     
     if ([self.guijiLine setPolylineWithCoordinates:coors count:arr.count]) {
         [_myMap addOverlay: _guijiLine];
         [self mapViewFitPolyLine:_guijiLine];
     }
+    
+    [guijiAnnotationArray removeAllObjects];
 }
 
 - (void)guijiAnnotation:(NSArray *)arr coordinate2DType:(Coordinate2DType)llType
@@ -669,7 +718,8 @@
     [_myMap removeAnnotations:_myMap.annotations];
     [self.clusterManager clearClusterItems];
     
-    _coordinate2DArray = [NSMutableArray arrayWithCapacity:12];
+    [_coordinate2DArray removeAllObjects];
+    [_clusterCaches removeAllObjects];
     CLLocationCoordinate2D coors[arr.count];
     
     _clusterCaches = [[NSMutableArray alloc] init];
@@ -700,6 +750,7 @@
         [self.clusterManager addClusterItem:clusterItem];
     }
     
+    _guijiModelArray = [arr copy];
     [self updateClusters];
     
     if ([self.guijiLine setPolylineWithCoordinates:coors count:arr.count]) {

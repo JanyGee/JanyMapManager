@@ -11,6 +11,7 @@
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>
 #import "JZLocationConverter.h"
 #import "Model.h"
+#import <objc/runtime.h>
 
 typedef enum : NSUInteger {//常规地图、卫星地图、3D地图
     MapNormal,
@@ -117,7 +118,22 @@ typedef void (^ReverseFail)(void);
  */
 - (void)jany_locateWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D Coordinate2DType:(Coordinate2DType)llType annotationImage:(UIImage *)annotationImage annotationInfor:(NSObject *)infor success:(ReverseSuccess)success fail:(ReverseFail)fail;
 
+/**
+ 多点定位显示
 
+ @param inforArray 带经纬度的模型数组
+ @param annotationImage 定位点大头针
+ */
+- (void)jany_locateWithCoordinate2Ds:(NSArray *)inforArray annotationImage:(UIImage *)annotationImage;
+
+
+/**
+ 多点定位显示，每一个点的大头针图片不同
+
+ @param inforArray 带经纬度的模型数组
+ @param annotationImages 针对model的annotation图片
+ */
+- (void)jany_locateWithCoordinate2Ds:(NSArray *)inforArray annotationImages:(NSArray *)annotationImages;
 #pragma mark ============================== 轨迹操作 ==============================
 /*
  每次绘制点都不能过于太多，太多出现卡顿，实际中肯定会出现特殊情况，这种情况可以采取分段绘制
