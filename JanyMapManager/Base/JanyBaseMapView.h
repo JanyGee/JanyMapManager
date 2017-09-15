@@ -196,6 +196,31 @@ typedef void (^ReverseFail)(void);
  */
 - (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor;
 
+/**
+ 绘制轨迹，设置起点图片和终点图片还有中间轨迹点的图片
+ 
+ @param dataArr 轨迹数据，需要大于两条数据
+ @param startImage 开始点图片
+ @param img 中间轨迹点的图片
+ @param endImage 结束点图片
+ @param width 轨迹线的宽度
+ @param lineImage 图片
+ */
+- (void)jany_imagePathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineImage:(UIImage *)lineImage;
+
+/**
+ 绘制带图片的轨迹，设置起点，中间不同定类型点的图片（wifi，GPS，lbs）三种类型，终点图片,设置轨迹线的颜色和宽度
+ 
+ @param dataArr 轨迹数据，需要大于两条数据
+ @param startImage 开始点图片
+ @param wifiImgae wifi点的图片
+ @param gpsImage gps点的图片
+ @param lbsImage lbs点的图片
+ @param endImage 结束点的图片
+ @param width 轨迹线的宽度
+ @param lineImage 轨迹的颜色
+ */
+- (void)jany_imagePathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineImage:(UIImage *)lineImage;
 
 /**
  类似贪食蛇的轨迹画法，针对新app的需求

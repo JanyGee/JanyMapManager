@@ -14,7 +14,9 @@
     void (^_starLocateSuccessBlock)(CLLocationCoordinate2D ll);
     void (^_locateFailBlock)(NSError *error);
 }
+@property (nonatomic, strong)BMKLocationViewDisplayParam *param;
 @end
+
 @implementation UserLocation
 - (instancetype)initWithMap:(BMKMapView *)map
 {
@@ -35,6 +37,7 @@
     [_myMap setShowsUserLocation:NO];//先关闭显示的定位图层
     [_myMap setUserTrackingMode:BMKUserTrackingModeNone];//设置定位的状态
     [_myMap setShowsUserLocation:YES];//显示定位图层
+    [_myMap updateLocationViewWithParam:self.param];
     
 }
 
@@ -44,15 +47,18 @@
     [_myMap setShowsUserLocation:NO];
     [self setDelegate:nil];
 }
-//
-////自定义精度圈
-//- (void)customLocationAccuracyCircle {
-//    BMKLocationViewDisplayParam *param = [[BMKLocationViewDisplayParam alloc] init];
-//    param.accuracyCircleStrokeColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
-//    param.accuracyCircleFillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.3];
-//    [_myMap updateLocationViewWithParam:param];
-//}
-//
+
+- (BMKLocationViewDisplayParam *)param
+{
+    if (!_param) {
+        _param = [[BMKLocationViewDisplayParam alloc] init];
+        _param.locationViewImgName = @"homePage_wholeAnchor";
+        _param.isRotateAngleValid = YES;
+        _param.isAccuracyCircleShow = NO;
+    }
+    
+    return _param;
+}
 
 #pragma mark ============================== delegate ==============================
 - (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation

@@ -50,15 +50,20 @@
     [btn setFrame:CGRectMake(0.f, 0.f, 50.f, 50.f)];
     [btn setBackgroundColor:[UIColor lightGrayColor]];
     [map addSubview:btn];
-    
     [btn addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *centerbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerbtn setFrame:CGRectMake(80.f, 0.f, 50.f, 50.f)];
     [centerbtn setBackgroundColor:[UIColor greenColor]];
     [map addSubview:centerbtn];
-    
     [centerbtn addTarget:self action:@selector(centerbtnclick) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn3 setFrame:CGRectMake(160.f, 0.f, 50.f, 50.f)];
+    [btn3 setBackgroundColor:[UIColor lightGrayColor]];
+    [btn3 setTitle:@"清除" forState:UIControlStateNormal];
+    [map addSubview:btn3];
+    [btn3 addTarget:self action:@selector(btn3Click) forControlEvents:UIControlEventTouchUpInside];
     
     UISlider *slide = [[UISlider alloc] initWithFrame:CGRectMake(40.f, 80.f, 300.f, 50.f)];
     [slide setMinimumValue:0];
@@ -169,7 +174,7 @@
         
             CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
             NSMutableArray *arr = [NSMutableArray arrayWithCapacity:12];
-            for (int i = 0; i < 2000; i ++) {
+            for (int i = 0; i < 10000; i ++) {
                 double lat =  (arc4random() % 100) * 0.001f;
                 double lon =  (arc4random() % 100) * 0.001f;
                 Model *model = [[Model alloc] init];
@@ -226,9 +231,15 @@
         }
         
 //        [map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"]];
-        [map jany_pathMoveWithData:arr coordinate2DType:Bd09 startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.3]];
+        [map jany_imagePathMoveWithData:arr coordinate2DType:Bd09 startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"] lineWidth:4 lineImage:[UIImage imageNamed:@"arrowTexture"]];
+//        [map jany_pathMoveWithData:arr coordinate2DType:Bd09 startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:2 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.3]];
     }
 
+}
+
+- (void)btn3Click
+{
+    [map jany_cleanAllPath];
 }
 
 @end

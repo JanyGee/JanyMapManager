@@ -39,6 +39,7 @@
     UIImage *_lbsImage;
     UIImage *_moveImage;
     UIImage *_fenceImage;
+    UIImage *_guijiLineImage;
     NSArray *_guijiModelArray;
     NSMutableArray *_coordinate2DArray;
 
@@ -332,14 +333,18 @@
 - (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id <BMKOverlay>)overlay
 {
     if ([overlay isKindOfClass:[BMKPolyline class]]){
-        
-//        BMKPolylineView* polylineView = [[BMKPolylineView alloc] initWithOverlay:overlay];
-//        polylineView.strokeColor = _guijiLineColor;
-//        polylineView.lineWidth = _guijiLineWidth;
-        
+
         BMKPolylineView *polylineView = [[BMKPolylineView alloc] initWithOverlay:overlay];
         polylineView.lineWidth = _guijiLineWidth;
-        [polylineView loadStrokeTextureImage:[UIImage imageNamed:@"arrowTexture"]];
+        
+        if (_guijiLineColor) {
+            
+            polylineView.strokeColor = _guijiLineColor;
+            
+        }else{
+            
+            [polylineView loadStrokeTextureImage:_guijiLineImage];
+        }
         
         return polylineView;
     }
@@ -562,6 +567,19 @@
 
 }
 
+- (void)jany_imagePathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineImage:(UIImage *)lineImage
+{
+    _guijiLineImage = lineImage;
+    [self jany_pathMoveWithData:dataArr coordinate2DType:llType startImage:startImage middleImage:img endImage:endImage lineWidth:width lineColor:nil];
+}
+
+- (void)jany_imagePathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineImage:(UIImage *)lineImage
+{
+    _guijiLineImage = lineImage;
+    
+    [self jany_pathMoveWithData:dataArr coordinate2DType:llType startImage:startImage wifiImgae:wifiImgae gpsImage:gpsImage lbsImage:lbsImage endImage:endImage lineWidth:width lineColor:nil];
+}
+
 - (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage middleImage:(UIImage *)img endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
 {
     _startImage = startImage;
@@ -588,7 +606,6 @@
             [self guijiNoAnnotation:dataArr coordinate2DType:llType];
         }
     }
-    
 }
 
 - (void)jany_pathMoveWithData:(NSArray *)dataArr coordinate2DType:(Coordinate2DType)llType startImage:(UIImage *)startImage wifiImgae:(UIImage *)wifiImgae gpsImage:(UIImage *)gpsImage lbsImage:(UIImage *)lbsImage endImage:(UIImage *)endImage lineWidth:(CGFloat)width lineColor:(UIColor *)lineColor
