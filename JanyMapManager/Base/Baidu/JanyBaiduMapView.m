@@ -123,7 +123,7 @@
 - (FenceCentreAnnotation *)fenceAnnotation
 {
     if (!_fenceAnnotation) {
-        _movePointAnnotation = [[MovePointAnnotation alloc] init];
+        _fenceAnnotation = [[FenceCentreAnnotation alloc] init];
     }
     
     return _fenceAnnotation;
@@ -326,6 +326,32 @@
         return annotationView;
     }
     
+    if ([annotation isKindOfClass:[FenceCentreAnnotation class]]) {
+        NSString *AnnotationViewID = @"fenceMark";
+        BMKPinAnnotationView *annotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationViewID];
+        if (annotationView == nil) {
+            annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
+            
+        }
+        
+        CGRect endFrame = annotationView.frame;
+        annotationView.frame = CGRectOffset(endFrame, 0.f, -30.f);
+        [UIView animateWithDuration:2.f delay:0.f usingSpringWithDamping:0.3f initialSpringVelocity:0.f options:UIViewAnimationOptionLayoutSubviews animations:^{
+            
+            annotationView.frame = endFrame;
+        } completion:^(BOOL finished) {
+            
+        }];
+        
+        if (_fenceImage) {
+            annotationView.image = _fenceImage;
+        }else{
+            annotationView.pinColor = BMKPinAnnotationColorGreen;
+        }
+        
+        return annotationView;
+    }
+    
     return nil;
 }
 
@@ -347,6 +373,16 @@
         }
         
         return polylineView;
+    }
+    
+    if ([overlay isKindOfClass:[BMKCircle class]]) {
+     
+        BMKCircleView* circleView = [[BMKCircleView alloc] initWithOverlay:overlay];
+        circleView.strokeColor = _fenceStrokerColor;
+        circleView.fillColor = _fenceFillColor;
+        circleView.lineWidth = 1.f;
+        
+        return circleView;
     }
     
     return nil;
@@ -826,6 +862,32 @@
     }
     _fenceStrokerColor = lineColor;
     _fenceFillColor = coverColor;
+    _fenceImage = centreImage;
     
+    NSArray *objArr = _myMap.overlays;
+    for (NSObject *obj in objArr) {
+        
+        if ([obj isKindOfClass:[BMKCircle class]]) {
+            BMKCircle *fenceCircle = (BMKCircle *)obj;
+            [_myMap removeOverlay:fenceCircle];
+        }
+    }
+    
+    BMKCircle *fenceCircle = [BMKCircle circleWithCenterCoordinate:coordinate2D radius:radiu];
+    [_myMap addOverlay:fenceCircle];
+    
+    [self.fenceAnnotation setCoordinate:coordinate2D];
+    [_myMap addAnnotation:_fenceAnnotation];
+    [_myMap setCenterCoordinate:coordinate2D animated:YES];
+    
+    if (success && fail) {
+        
+        [self.geoCodeSearch reverseWithCoordinate2D:coordinate2D success:^(BMKReverseGeoCodeResult *result) {
+            success(result.address);
+        } fail:^(BMKSearchErrorCode error) {
+            fail();
+        }];
+    }
 }
+
 @end

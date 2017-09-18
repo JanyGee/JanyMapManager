@@ -251,7 +251,7 @@ typedef void (^ReverseFail)(void);
 - (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor;
 
 /**
- 画一个圆形电子围栏，返回中心点的地址反转信息
+ 画一个圆形电子围栏，返回中心点的地址反转信息，填充色（百度地图要求）
 
  @param coordinate2D 围栏中心
  @param centreImage 圆中心点的图片

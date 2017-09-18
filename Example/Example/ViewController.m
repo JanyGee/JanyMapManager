@@ -239,7 +239,13 @@
 
 - (void)btn3Click
 {
-    [map jany_cleanAllPath];
+    //[map jany_cleanAllPath];
+    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
+    [map jany_drawFenceWithCoordinate2D:coor coordinate2DType:Bd09 centreImage:[UIImage imageNamed:@"HomePage_anchorBackground"] radiu:3000 lineColor:[UIColor greenColor] coverColor:[[UIColor blueColor] colorWithAlphaComponent:0.3] success:^(NSString *address) {
+        NSLog(@"%@",address);
+    } fail:^{
+        
+    }];
 }
 
 @end
