@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "JanyMapManager"
-  s.version      = "0.0.1"
+  s.version      = "1.0.0"
   s.summary      = "Own encapsulate a gallery"
 
   # This description is used to generate tags and improve search results.
