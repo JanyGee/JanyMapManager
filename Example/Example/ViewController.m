@@ -174,7 +174,7 @@
         
             CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
             NSMutableArray *arr = [NSMutableArray arrayWithCapacity:12];
-            for (int i = 0; i < 10000; i ++) {
+            for (int i = 0; i < 100; i ++) {
                 double lat =  (arc4random() % 100) * 0.001f;
                 double lon =  (arc4random() % 100) * 0.001f;
                 Model *model = [[Model alloc] init];
