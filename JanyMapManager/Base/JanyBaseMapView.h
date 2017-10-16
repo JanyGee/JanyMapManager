@@ -269,8 +269,10 @@ typedef void (^ReverseFail)(void);
 
  @param fenceArrary 电子围栏模型数组
  @param imageArrary 按排列的图片名，针对模型里面的数据
+ @param latKey 数据模型的经纬度
+ @param lonKey 数据模型的经纬度
  */
-- (void)jany_drawFenceWithCoordinate2D:(NSArray *)fenceArrary coordinate2DType:(Coordinate2DType)llType images:(NSArray *)imageArrary;
+- (void)jany_drawFenceWithCoordinate2D:(NSArray *)fenceArrary coordinate2DType:(Coordinate2DType)llType images:(NSArray *)imageArrary objectModelLatKey:(NSString *)latKey objectModelonKey:(NSString *)lonKey;
 
 /**
  此方法针对已经设置好了电子围栏，然后对其改变大小，调用比较频繁

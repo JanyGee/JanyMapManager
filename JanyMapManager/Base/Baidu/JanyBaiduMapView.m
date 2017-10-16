@@ -851,6 +851,11 @@
 }
 
 #pragma mark ============================== 电子围栏 ==============================
+- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor
+{
+    [self jany_drawFenceWithCoordinate2D:coordinate2D coordinate2DType:llType centreImage:centreImage radiu:radiu lineColor:lineColor coverColor:coverColor success:nil fail:nil];
+}
+
 - (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor success:(ReverseSuccess)success fail:(ReverseFail)fail
 {
     if (llType == Wgs84) {//坐标转换
@@ -890,4 +895,32 @@
     }
 }
 
+- (void)jany_drawFenceWithCoordinate2D:(NSArray *)fenceArrary coordinate2DType:(Coordinate2DType)llType images:(NSArray *)imageArrary objectModelLatKey:(NSString *)latKey objectModelonKey:(NSString *)lonKey
+{
+    CLLocationCoordinate2D coors[fenceArrary.count];
+    
+    for (int i = 0; i < fenceArrary.count; i ++) {
+        
+        NSObject *fenceModel = fenceArrary[i];
+        NSString *latValue = [fenceModel valueForKey:latKey];
+        NSString *lonValue = [fenceModel valueForKey:lonKey];
+        CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(latValue.doubleValue,lonValue.doubleValue);
+        
+        if (llType == Wgs84) {//坐标转换
+            LL = [JZLocationConverter wgs84ToBd09:LL];
+        }else if (llType == Gcj02){
+            LL = [JZLocationConverter gcj02ToBd09:LL];
+        }else{
+            LL = LL;
+        }
+        _fenceImage = imageArrary[i];
+        
+        coors[i] = LL;
+    }
+    
+    if ([self.guijiLine setPolylineWithCoordinates:coors count:fenceArrary.count]) {
+
+    }
+
+}
 @end
