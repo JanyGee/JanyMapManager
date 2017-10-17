@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "JanyBaseMapView.h"
 #import "JanyBaiduMapView.h"
+#import "JanyGoogleMapView.h"
 #import "Model.h"
 #import "FenceModel.h"
 
@@ -27,20 +28,20 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     _flag = NO;
-    map = [[JanyBaiduMapView alloc] initWithFrame:self.view.bounds];
+    map = [[JanyGoogleMapView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:map];
-    [map startLocationSuccess:^{
-        
-        [map stopLocation];
-        
-    } fail:^(NSError *error) {
-        [btn setBackgroundColor:[UIColor redColor]];
-        if (error.code == 1) {
-            NSLog(@"没有得到用户定位授权");
-        }
-    }];
+//    [map startLocationSuccess:^{
+//        
+//        [map stopLocation];
+//        
+//    } fail:^(NSError *error) {
+//        [btn setBackgroundColor:[UIColor redColor]];
+//        if (error.code == 1) {
+//            NSLog(@"没有得到用户定位授权");
+//        }
+//    }];
     
-    [self setUI];
+    [self setupUI];
     
 }
 
@@ -81,6 +82,16 @@
     [btn4 addTarget:self action:@selector(btn4Click) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)setupUI
+{
+    UIButton *btnMap3D = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnMap3D setFrame:CGRectMake(210.f, 0.f, 50.f, 50.f)];
+    [btnMap3D setBackgroundColor:[UIColor lightGrayColor]];
+    [btnMap3D setTitle:@"清除" forState:UIControlStateNormal];
+    [map addSubview:btnMap3D];
+    [btnMap3D addTarget:self action:@selector(btnaClick) forControlEvents:UIControlEventTouchUpInside];
+}
+
 - (void)slideChange:(UISlider *)slide
 {
 
@@ -113,6 +124,18 @@
     
     //[map jany_pathMoveWithData:arr startImage:[UIImage imageNamed:@"startPoint"] middleImage:nil endImage:[UIImage imageNamed:@"endPoint"]];
     [map jany_pathMoveWithData:arr coordinate2DType:Bd09 moveImage:[UIImage imageNamed:@"HomePage_anchorBackground"] lineWidth:3 lineColor:[UIColor greenColor]];
+}
+
+- (void)btnaClick
+{
+    if (map.mapDispalyType == Map3D) {
+        
+        map.mapDispalyType = MapNormal;
+        
+    }else{
+        map.mapDispalyType = MapSatellite;
+    }
+    
 }
 
 - (void)click{

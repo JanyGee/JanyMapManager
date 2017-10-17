@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>
 #import "JZLocationConverter.h"
-#import "Model.h"
+#import "Model.h"//轨迹模型model包括经纬度信息，设备在此经纬度时所有的设备状态信息
 #import <objc/runtime.h>
 
 typedef enum : NSUInteger {//常规地图、卫星地图、3D地图
@@ -45,7 +45,7 @@ typedef void (^ReverseFail)(void);
 
 
 /**
- 定位手机用户位置
+ 定位手机用户位置谷歌地图不使用这个来定位手机位置，使用KVO
 
  @param success 成功刷新UI
  @param fail 失败为code=1时，是没有得到用户定位的权限

@@ -878,14 +878,6 @@
         }
     }
     
-    NSArray *objAnnotations = _myMap.annotations;
-    for (NSObject *obj in objAnnotations) {
-        if ([obj isKindOfClass:[FenceCentreAnnotation class]]) {
-            FenceCentreAnnotation *fenceAnnotation = (FenceCentreAnnotation *)obj;
-            [_myMap removeAnnotation:fenceAnnotation];
-        }
-    }
-    
     BMKCircle *fenceCircle = [BMKCircle circleWithCenterCoordinate:coordinate2D radius:radiu];
     [_myMap addOverlay:fenceCircle];
     
