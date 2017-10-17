@@ -271,8 +271,11 @@ typedef void (^ReverseFail)(void);
  @param imageArrary 按排列的图片名，针对模型里面的数据
  @param latKey 数据模型的经纬度
  @param lonKey 数据模型的经纬度
+ @param radiuKey 数据模型的半径
+ @param lineColor 圆圈颜色
+ @param coverColor 内圆颜色
  */
-- (void)jany_drawFenceWithCoordinate2D:(NSArray *)fenceArrary coordinate2DType:(Coordinate2DType)llType images:(NSArray *)imageArrary objectModelLatKey:(NSString *)latKey objectModelonKey:(NSString *)lonKey;
+- (void)jany_drawFenceWithCoordinate2D:(NSArray *)fenceArrary coordinate2DType:(Coordinate2DType)llType images:(NSArray *)imageArrary objectModelLatKey:(NSString *)latKey objectModelonKey:(NSString *)lonKey objectModelRadiuKey:(NSString *)radiuKey lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor;
 
 /**
  此方法针对已经设置好了电子围栏，然后对其改变大小，调用比较频繁

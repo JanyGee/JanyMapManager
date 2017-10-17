@@ -45,6 +45,7 @@
 		31AE802F1F6230D500531E54 /* PaopaoCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE802E1F6230D500531E54 /* PaopaoCustomView.m */; };
 		31AE80321F62675700531E54 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE80311F62675700531E54 /* Model.m */; };
 		31AE80351F627B5F00531E54 /* GuiJiAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AE80341F627B5F00531E54 /* GuiJiAnnotation.m */; };
+		31B0CDCA1F95942500D995E8 /* FenceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B0CDC91F95942500D995E8 /* FenceModel.m */; };
 		7C3E5A714D38FE148FE7E8EC /* libPods-Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5710FD652FCDB7447334B7 /* libPods-Example.a */; };
 /* End PBXBuildFile section */
 
@@ -120,6 +121,8 @@
 		31AE80311F62675700531E54 /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 		31AE80331F627B5F00531E54 /* GuiJiAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiJiAnnotation.h; sourceTree = "<group>"; };
 		31AE80341F627B5F00531E54 /* GuiJiAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuiJiAnnotation.m; sourceTree = "<group>"; };
+		31B0CDC81F95942500D995E8 /* FenceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FenceModel.h; sourceTree = "<group>"; };
+		31B0CDC91F95942500D995E8 /* FenceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FenceModel.m; sourceTree = "<group>"; };
 		6A5710FD652FCDB7447334B7 /* libPods-Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		933CB4C5C5CBF9CF6838CE75 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -174,6 +177,8 @@
 				317147A51F5FE349001ED7EB /* ViewController.m */,
 				31AE80301F62675700531E54 /* Model.h */,
 				31AE80311F62675700531E54 /* Model.m */,
+				31B0CDC81F95942500D995E8 /* FenceModel.h */,
+				31B0CDC91F95942500D995E8 /* FenceModel.m */,
 				317147A71F5FE349001ED7EB /* Main.storyboard */,
 				317147AA1F5FE349001ED7EB /* Assets.xcassets */,
 				317147AC1F5FE349001ED7EB /* LaunchScreen.storyboard */,
@@ -498,6 +503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				317B8DD11F61260A0069BEA1 /* JanyGeoCodeSearch.m in Sources */,
+				31B0CDCA1F95942500D995E8 /* FenceModel.m in Sources */,
 				317147A61F5FE349001ED7EB /* ViewController.m in Sources */,
 				31AE80351F627B5F00531E54 /* GuiJiAnnotation.m in Sources */,
 				317147D81F5FE83F001ED7EB /* JanyBaiduMapView.m in Sources */,

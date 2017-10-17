@@ -878,6 +878,14 @@
         }
     }
     
+    NSArray *objAnnotations = _myMap.annotations;
+    for (NSObject *obj in objAnnotations) {
+        if ([obj isKindOfClass:[FenceCentreAnnotation class]]) {
+            FenceCentreAnnotation *fenceAnnotation = (FenceCentreAnnotation *)obj;
+            [_myMap removeAnnotation:fenceAnnotation];
+        }
+    }
+    
     BMKCircle *fenceCircle = [BMKCircle circleWithCenterCoordinate:coordinate2D radius:radiu];
     [_myMap addOverlay:fenceCircle];
     
@@ -895,15 +903,35 @@
     }
 }
 
-- (void)jany_drawFenceWithCoordinate2D:(NSArray *)fenceArrary coordinate2DType:(Coordinate2DType)llType images:(NSArray *)imageArrary objectModelLatKey:(NSString *)latKey objectModelonKey:(NSString *)lonKey
+- (void)jany_drawFenceWithCoordinate2D:(NSArray *)fenceArrary coordinate2DType:(Coordinate2DType)llType images:(NSArray *)imageArrary objectModelLatKey:(NSString *)latKey objectModelonKey:(NSString *)lonKey objectModelRadiuKey:(NSString *)radiuKey lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor
 {
     CLLocationCoordinate2D coors[fenceArrary.count];
+    _fenceStrokerColor = lineColor;
+    _fenceFillColor = coverColor;
+    
+    NSArray *objArr = _myMap.overlays;
+    for (NSObject *obj in objArr) {
+        
+        if ([obj isKindOfClass:[BMKCircle class]]) {
+            BMKCircle *fenceCircle = (BMKCircle *)obj;
+            [_myMap removeOverlay:fenceCircle];
+        }
+    }
+    
+    NSArray *objAnnotations = _myMap.annotations;
+    for (NSObject *obj in objAnnotations) {
+        if ([obj isKindOfClass:[FenceCentreAnnotation class]]) {
+            FenceCentreAnnotation *fenceAnnotation = (FenceCentreAnnotation *)obj;
+            [_myMap removeAnnotation:fenceAnnotation];
+        }
+    }
     
     for (int i = 0; i < fenceArrary.count; i ++) {
         
         NSObject *fenceModel = fenceArrary[i];
         NSString *latValue = [fenceModel valueForKey:latKey];
         NSString *lonValue = [fenceModel valueForKey:lonKey];
+        NSString *radiuValue = [fenceModel valueForKey:radiuKey];
         CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(latValue.doubleValue,lonValue.doubleValue);
         
         if (llType == Wgs84) {//坐标转换
@@ -913,14 +941,19 @@
         }else{
             LL = LL;
         }
-        _fenceImage = imageArrary[i];
+        _fenceImage = [UIImage imageNamed:imageArrary[i]];
         
         coors[i] = LL;
+        
+        FenceCentreAnnotation *annotation = [[FenceCentreAnnotation alloc] init];
+        [annotation setCoordinate:LL];
+        [_myMap addAnnotation:annotation];
+        
+        BMKCircle *fenceCircle = [BMKCircle circleWithCenterCoordinate:LL radius:radiuValue.floatValue];
+        [_myMap addOverlay:fenceCircle];
     }
     
-    if ([self.guijiLine setPolylineWithCoordinates:coors count:fenceArrary.count]) {
-
-    }
+    [self mapViewFitPolyLine:[BMKPolyline polylineWithCoordinates:coors count:fenceArrary.count]];
 
 }
 @end

@@ -10,6 +10,7 @@
 #import "JanyBaseMapView.h"
 #import "JanyBaiduMapView.h"
 #import "Model.h"
+#import "FenceModel.h"
 
 @interface ViewController ()
 {
@@ -71,6 +72,13 @@
     [map addSubview:slide];
     
     [slide addTarget:self action:@selector(slideChange:) forControlEvents:UIControlEventValueChanged];
+    
+    UIButton *btn4 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn4 setFrame:CGRectMake(210.f, 0.f, 50.f, 50.f)];
+    [btn4 setBackgroundColor:[UIColor lightGrayColor]];
+    [btn4 setTitle:@"清除" forState:UIControlStateNormal];
+    [map addSubview:btn4];
+    [btn4 addTarget:self action:@selector(btn4Click) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)slideChange:(UISlider *)slide
@@ -248,4 +256,24 @@
     }];
 }
 
+- (void)btn4Click
+{
+    CLLocationCoordinate2D coors[3];
+    coors[0] = CLLocationCoordinate2DMake(22.922789663576, 113.9482886037343);
+    coors[1] = CLLocationCoordinate2DMake(22.8108252350, 113.90489842423);
+    coors[2] = CLLocationCoordinate2DMake(22.7103014726, 113.90458044929);
+    
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:3];
+    for (int i = 0; i < 3; i ++) {
+        
+        FenceModel *model = [[FenceModel alloc] init];
+        model.lat = [NSString stringWithFormat:@"%f",coors[i].latitude];
+        model.lon = [NSString stringWithFormat:@"%f",coors[i].longitude];
+        model.radiu = @"500";
+        
+        [arr addObject:model];
+    }
+
+    [map jany_drawFenceWithCoordinate2D:arr coordinate2DType:Bd09 images:@[@"HomePage_anchorBackground",@"HomePage_anchorBackground",@"HomePage_anchorBackground"] objectModelLatKey:@"lat" objectModelonKey:@"lon" objectModelRadiuKey:@"radiu" lineColor:[UIColor blueColor] coverColor:[[UIColor blueColor] colorWithAlphaComponent:0.3]];
+}
 @end

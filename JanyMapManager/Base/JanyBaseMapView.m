@@ -137,7 +137,7 @@
 
 }
 
-- (void)jany_drawFenceWithCoordinate2D:(NSArray *)fenceArrary coordinate2DType:(Coordinate2DType)llType images:(NSArray *)imageArrary objectModelLatKey:(NSString *)latKey objectModelonKey:(NSString *)lonKey
+- (void)jany_drawFenceWithCoordinate2D:(NSArray *)fenceArrary coordinate2DType:(Coordinate2DType)llType images:(NSArray *)imageArrary objectModelLatKey:(NSString *)latKey objectModelonKey:(NSString *)lonKey objectModelRadiuKey:(NSString *)radiuKey lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor
 {
 
 }
