@@ -33,6 +33,9 @@
 		317B8DCE1F6118B70069BEA1 /* JZLocationConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DCD1F6118B70069BEA1 /* JZLocationConverter.m */; };
 		317B8DD11F61260A0069BEA1 /* JanyGeoCodeSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DD01F61260A0069BEA1 /* JanyGeoCodeSearch.m */; };
 		317B8DD41F6137D10069BEA1 /* PointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 317B8DD31F6137D10069BEA1 /* PointAnnotation.m */; };
+		3189C1E01F96EB3D00605CCD /* GoogleLocationMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3189C1DF1F96EB3D00605CCD /* GoogleLocationMarker.m */; };
+		3189C1E31F96FBA200605CCD /* JanyGoogleGeoCodeSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 3189C1E21F96FBA200605CCD /* JanyGoogleGeoCodeSearch.m */; };
+		3189C1E61F973B4A00605CCD /* GuiJiMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3189C1E51F973B4A00605CCD /* GuiJiMarker.m */; };
 		319161E61F6770FE005C0B51 /* MovePolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161E51F6770FE005C0B51 /* MovePolyline.m */; };
 		319161E91F677205005C0B51 /* MovePointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161E81F677205005C0B51 /* MovePointAnnotation.m */; };
 		319161EC1F677C2A005C0B51 /* DVPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161EB1F677C2A005C0B51 /* DVPinAnnotationView.m */; };
@@ -98,6 +101,12 @@
 		317B8DD01F61260A0069BEA1 /* JanyGeoCodeSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JanyGeoCodeSearch.m; sourceTree = "<group>"; };
 		317B8DD21F6137D10069BEA1 /* PointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAnnotation.h; sourceTree = "<group>"; };
 		317B8DD31F6137D10069BEA1 /* PointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointAnnotation.m; sourceTree = "<group>"; };
+		3189C1DE1F96EB3D00605CCD /* GoogleLocationMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleLocationMarker.h; sourceTree = "<group>"; };
+		3189C1DF1F96EB3D00605CCD /* GoogleLocationMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleLocationMarker.m; sourceTree = "<group>"; };
+		3189C1E11F96FBA200605CCD /* JanyGoogleGeoCodeSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JanyGoogleGeoCodeSearch.h; sourceTree = "<group>"; };
+		3189C1E21F96FBA200605CCD /* JanyGoogleGeoCodeSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JanyGoogleGeoCodeSearch.m; sourceTree = "<group>"; };
+		3189C1E41F973B4A00605CCD /* GuiJiMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiJiMarker.h; sourceTree = "<group>"; };
+		3189C1E51F973B4A00605CCD /* GuiJiMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuiJiMarker.m; sourceTree = "<group>"; };
 		319161E41F6770FE005C0B51 /* MovePolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovePolyline.h; sourceTree = "<group>"; };
 		319161E51F6770FE005C0B51 /* MovePolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovePolyline.m; sourceTree = "<group>"; };
 		319161E71F677205005C0B51 /* MovePointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovePointAnnotation.h; sourceTree = "<group>"; };
@@ -266,6 +275,12 @@
 			children = (
 				317147D91F5FE84B001ED7EB /* JanyGoogleMapView.h */,
 				317147DA1F5FE84B001ED7EB /* JanyGoogleMapView.m */,
+				3189C1DE1F96EB3D00605CCD /* GoogleLocationMarker.h */,
+				3189C1DF1F96EB3D00605CCD /* GoogleLocationMarker.m */,
+				3189C1E11F96FBA200605CCD /* JanyGoogleGeoCodeSearch.h */,
+				3189C1E21F96FBA200605CCD /* JanyGoogleGeoCodeSearch.m */,
+				3189C1E41F973B4A00605CCD /* GuiJiMarker.h */,
+				3189C1E51F973B4A00605CCD /* GuiJiMarker.m */,
 			);
 			path = Google;
 			sourceTree = "<group>";
@@ -502,13 +517,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3189C1E01F96EB3D00605CCD /* GoogleLocationMarker.m in Sources */,
 				317B8DD11F61260A0069BEA1 /* JanyGeoCodeSearch.m in Sources */,
 				31B0CDCA1F95942500D995E8 /* FenceModel.m in Sources */,
 				317147A61F5FE349001ED7EB /* ViewController.m in Sources */,
 				31AE80351F627B5F00531E54 /* GuiJiAnnotation.m in Sources */,
+				3189C1E31F96FBA200605CCD /* JanyGoogleGeoCodeSearch.m in Sources */,
 				317147D81F5FE83F001ED7EB /* JanyBaiduMapView.m in Sources */,
 				319161EF1F67D74D005C0B51 /* FenceCentreAnnotation.m in Sources */,
 				31A8BBF41F68BB800027A107 /* BMKClusterManager.m in Sources */,
+				3189C1E61F973B4A00605CCD /* GuiJiMarker.m in Sources */,
 				317B8DC81F60D3460069BEA1 /* UserLocation.m in Sources */,
 				31A8BBF51F68BB800027A107 /* BMKClusterQuadtree.m in Sources */,
 				317B8DCE1F6118B70069BEA1 /* JZLocationConverter.m in Sources */,

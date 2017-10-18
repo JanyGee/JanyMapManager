@@ -128,14 +128,15 @@
 
 - (void)btnaClick
 {
-    if (map.mapDispalyType == Map3D) {
-        
-        map.mapDispalyType = MapNormal;
-        
-    }else{
-        map.mapDispalyType = MapSatellite;
-    }
+//    if (map.mapDispalyType == Map3D) {
+//        
+//        map.mapDispalyType = MapNormal;
+//        
+//    }else{
+//        map.mapDispalyType = MapSatellite;
+//    }
     
+    [map jany_locateWithCoordinate2D:CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343) Coordinate2DType:Wgs84 annotationImage:[UIImage imageNamed:@"HomePage_anchorBackground"] annotationInfor:nil success:nil fail:nil];
 }
 
 - (void)click{
