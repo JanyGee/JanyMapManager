@@ -90,6 +90,13 @@
     [btnMap3D setTitle:@"清除" forState:UIControlStateNormal];
     [map addSubview:btnMap3D];
     [btnMap3D addTarget:self action:@selector(btnaClick) forControlEvents:UIControlEventTouchUpInside];
+    
+    UISlider *slide = [[UISlider alloc] initWithFrame:CGRectMake(40.f, 80.f, 300.f, 50.f)];
+    [slide setMinimumValue:0];
+    [slide setMaximumValue:1];
+    [map addSubview:slide];
+    
+    [slide addTarget:self action:@selector(slideChange:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)slideChange:(UISlider *)slide
@@ -136,7 +143,22 @@
 //        map.mapDispalyType = MapSatellite;
 //    }
     
-    [map jany_locateWithCoordinate2D:CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343) Coordinate2DType:Wgs84 annotationImage:[UIImage imageNamed:@"HomePage_anchorBackground"] annotationInfor:nil success:nil fail:nil];
+//    [map jany_locateWithCoordinate2D:CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343) Coordinate2DType:Wgs84 annotationImage:[UIImage imageNamed:@"HomePage_anchorBackground"] annotationInfor:nil success:nil fail:nil];
+    
+    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:12];
+    for (int i = 0; i < 10; i ++) {
+        double lat =  (arc4random() % 100) * 0.001f;
+        double lon =  (arc4random() % 100) * 0.001f;
+        Model *model = [[Model alloc] init];
+        model.lat = coor.latitude + lat;
+        model.lon = coor.longitude + lon;
+        model.title = [NSString stringWithFormat:@"%d",i];
+        
+        [arr addObject:model];
+    }
+    
+    [map jany_pathMoveWithData:arr coordinate2DType:Bd09 startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:5 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.3]];
 }
 
 - (void)click{

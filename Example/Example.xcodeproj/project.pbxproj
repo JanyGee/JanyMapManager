@@ -41,6 +41,7 @@
 		319161EC1F677C2A005C0B51 /* DVPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161EB1F677C2A005C0B51 /* DVPinAnnotationView.m */; };
 		319161EF1F67D74D005C0B51 /* FenceCentreAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 319161EE1F67D74D005C0B51 /* FenceCentreAnnotation.m */; };
 		319161F11F67DD8F005C0B51 /* arrowTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 319161F01F67DD8F005C0B51 /* arrowTexture.png */; };
+		3193F6CB1F988696002631C1 /* SnakeMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3193F6CA1F988696002631C1 /* SnakeMarker.m */; };
 		31A8BBF21F68BB800027A107 /* BMKClusterAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A8BBEB1F68BB800027A107 /* BMKClusterAlgorithm.m */; };
 		31A8BBF31F68BB800027A107 /* BMKClusterItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A8BBED1F68BB800027A107 /* BMKClusterItem.m */; };
 		31A8BBF41F68BB800027A107 /* BMKClusterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A8BBEF1F68BB800027A107 /* BMKClusterManager.m */; };
@@ -116,6 +117,8 @@
 		319161ED1F67D74D005C0B51 /* FenceCentreAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FenceCentreAnnotation.h; sourceTree = "<group>"; };
 		319161EE1F67D74D005C0B51 /* FenceCentreAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FenceCentreAnnotation.m; sourceTree = "<group>"; };
 		319161F01F67DD8F005C0B51 /* arrowTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowTexture.png; sourceTree = "<group>"; };
+		3193F6C91F988696002631C1 /* SnakeMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnakeMarker.h; sourceTree = "<group>"; };
+		3193F6CA1F988696002631C1 /* SnakeMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnakeMarker.m; sourceTree = "<group>"; };
 		31A8BBEA1F68BB800027A107 /* BMKClusterAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMKClusterAlgorithm.h; sourceTree = "<group>"; };
 		31A8BBEB1F68BB800027A107 /* BMKClusterAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMKClusterAlgorithm.m; sourceTree = "<group>"; };
 		31A8BBEC1F68BB800027A107 /* BMKClusterItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMKClusterItem.h; sourceTree = "<group>"; };
@@ -281,6 +284,8 @@
 				3189C1E21F96FBA200605CCD /* JanyGoogleGeoCodeSearch.m */,
 				3189C1E41F973B4A00605CCD /* GuiJiMarker.h */,
 				3189C1E51F973B4A00605CCD /* GuiJiMarker.m */,
+				3193F6C91F988696002631C1 /* SnakeMarker.h */,
+				3193F6CA1F988696002631C1 /* SnakeMarker.m */,
 			);
 			path = Google;
 			sourceTree = "<group>";
@@ -537,6 +542,7 @@
 				317147DE1F5FE851001ED7EB /* JanyMAMapMapView.m in Sources */,
 				317147D11F5FE5B6001ED7EB /* README.md in Sources */,
 				317147A01F5FE349001ED7EB /* main.m in Sources */,
+				3193F6CB1F988696002631C1 /* SnakeMarker.m in Sources */,
 				319161E61F6770FE005C0B51 /* MovePolyline.m in Sources */,
 				31A8BBF21F68BB800027A107 /* BMKClusterAlgorithm.m in Sources */,
 				31A8BBF31F68BB800027A107 /* BMKClusterItem.m in Sources */,
