@@ -145,20 +145,38 @@
     
 //    [map jany_locateWithCoordinate2D:CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343) Coordinate2DType:Wgs84 annotationImage:[UIImage imageNamed:@"HomePage_anchorBackground"] annotationInfor:nil success:nil fail:nil];
     
-    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
-    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:12];
-    for (int i = 0; i < 10; i ++) {
-        double lat =  (arc4random() % 100) * 0.001f;
-        double lon =  (arc4random() % 100) * 0.001f;
-        Model *model = [[Model alloc] init];
-        model.lat = coor.latitude + lat;
-        model.lon = coor.longitude + lon;
-        model.title = [NSString stringWithFormat:@"%d",i];
+//    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(22.559227896635761, 113.9482886037343);
+//    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:12];
+//    for (int i = 0; i < 10; i ++) {
+//        double lat =  (arc4random() % 100) * 0.001f;
+//        double lon =  (arc4random() % 100) * 0.001f;
+//        Model *model = [[Model alloc] init];
+//        model.lat = coor.latitude + lat;
+//        model.lon = coor.longitude + lon;
+//        model.title = [NSString stringWithFormat:@"%d",i];
+//        
+//        [arr addObject:model];
+//    }
+//    
+//    [map jany_pathMoveWithData:arr coordinate2DType:Bd09 startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:5 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.3]];
+    
+    CLLocationCoordinate2D coors[3];
+    coors[0] = CLLocationCoordinate2DMake(22.922789663576, 113.9482886037343);
+    coors[1] = CLLocationCoordinate2DMake(22.8108252350, 113.90489842423);
+    coors[2] = CLLocationCoordinate2DMake(22.7103014726, 113.90458044929);
+    
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:3];
+    for (int i = 0; i < 3; i ++) {
+        
+        FenceModel *model = [[FenceModel alloc] init];
+        model.lat = [NSString stringWithFormat:@"%f",coors[i].latitude];
+        model.lon = [NSString stringWithFormat:@"%f",coors[i].longitude];
+        model.radiu = @"500";
         
         [arr addObject:model];
     }
     
-    [map jany_pathMoveWithData:arr coordinate2DType:Bd09 startImage:[UIImage imageNamed:@"startPoint"] wifiImgae:[UIImage imageNamed:@"HomePage_anchorBackground"] gpsImage:[UIImage imageNamed:@"homePage_wholeAnchor"] lbsImage:[UIImage imageNamed:@"startAnnoImage"] endImage:[UIImage imageNamed:@"endPoint"] lineWidth:5 lineColor:[[UIColor greenColor] colorWithAlphaComponent:0.3]];
+    [map jany_drawFenceWithCoordinate2D:arr coordinate2DType:Bd09 images:@[@"HomePage_anchorBackground",@"HomePage_anchorBackground",@"HomePage_anchorBackground"] objectModelLatKey:@"lat" objectModelonKey:@"lon" objectModelRadiuKey:@"radiu" lineColor:[UIColor blueColor] coverColor:[[UIColor blueColor] colorWithAlphaComponent:0.3]];
 }
 
 - (void)click{

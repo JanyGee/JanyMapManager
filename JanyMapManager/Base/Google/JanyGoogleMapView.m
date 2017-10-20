@@ -36,6 +36,8 @@
     UIImage *_wifiImage;
     UIImage *_gpsImage;
     UIImage *_lbsImage;
+    
+    NSMutableArray *_objOverlay;
 }
 @property (nonatomic, strong)GMSMapView *myMap;
 @property (nonatomic, strong)GoogleLocationMarker *locationMarker;
@@ -53,7 +55,7 @@
     if (self) {
         _dvCLLocation = CLLocationCoordinate2DMake(11110, 111110);
         [self addSubview:self.myMap];
-        
+        _objOverlay = [NSMutableArray arrayWithCapacity:2];
         [self initDataForMap];
     }
     return self;
@@ -65,7 +67,7 @@
     if (self) {
         _dvCLLocation = CLLocationCoordinate2DMake(11110, 111110);
         [self addSubview:self.myMap];
-        
+        _objOverlay = [NSMutableArray arrayWithCapacity:2];
         [self initDataForMap];
         
     }
@@ -584,6 +586,125 @@
     }
     
     [pathLine removeAllCoordinates];
+}
+
+#pragma mark ============================== 电子围栏 ==============================
+- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor
+{
+    [self jany_drawFenceWithCoordinate2D:coordinate2D coordinate2DType:llType centreImage:centreImage radiu:radiu lineColor:lineColor coverColor:coverColor success:nil fail:nil];
+}
+
+- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor success:(ReverseSuccess)success fail:(ReverseFail)fail
+{
+    if (_objOverlay.count != 0) {
+        
+        for (NSObject *obj in _objOverlay) {
+            
+            if ([obj isKindOfClass:[GMSMarker class]]) {
+                GMSMarker *marker = (GMSMarker *)obj;
+                marker.map = nil;
+                marker = nil;
+            }
+            
+            if ([obj isKindOfClass:[GMSCircle class]]) {
+                GMSCircle *circle = (GMSCircle *)obj;
+                circle.map = nil;
+                circle = nil;
+            }
+        }
+        
+        [_objOverlay removeAllObjects];
+    }
+    
+    if (llType == Wgs84) {//坐标转换
+        coordinate2D = coordinate2D;
+    }else if (llType == Gcj02){
+        coordinate2D = [JZLocationConverter gcj02ToWgs84:coordinate2D];
+    }else{
+        coordinate2D = [JZLocationConverter bd09ToWgs84:coordinate2D];
+    }
+    
+    GMSMarker *marker = [[GMSMarker alloc]init];
+    [marker setPosition:coordinate2D];
+    [marker setIcon:centreImage];
+    [marker setMap:_myMap];
+    [_objOverlay addObject:marker];
+    
+    GMSCircle *homeCircle = [GMSCircle circleWithPosition:coordinate2D radius:radiu];
+    [homeCircle setFillColor:coverColor];
+    [homeCircle setStrokeColor:lineColor];
+    [homeCircle setMap:_myMap];
+    [_objOverlay addObject:homeCircle];
+    
+    [_myMap animateToLocation:coordinate2D];
+    
+    if (success && fail) {
+        
+        [self.myGeocoder reverseWithCoordinate2D:marker.position success:^(NSString *result) {
+            
+            success(result);
+            
+        } fail:^(NSError *error) {
+            
+            fail();
+        }];
+    }
+}
+
+- (void)jany_drawFenceWithCoordinate2D:(NSArray *)fenceArrary coordinate2DType:(Coordinate2DType)llType images:(NSArray *)imageArrary objectModelLatKey:(NSString *)latKey objectModelonKey:(NSString *)lonKey objectModelRadiuKey:(NSString *)radiuKey lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor
+{
+    if (_objOverlay.count != 0) {
+        
+        for (NSObject *obj in _objOverlay) {
+            
+            if ([obj isKindOfClass:[GMSMarker class]]) {
+                GMSMarker *marker = (GMSMarker *)obj;
+                marker.map = nil;
+                marker = nil;
+            }
+            
+            if ([obj isKindOfClass:[GMSCircle class]]) {
+                GMSCircle *circle = (GMSCircle *)obj;
+                circle.map = nil;
+                circle = nil;
+            }
+        }
+        
+        [_objOverlay removeAllObjects];
+    }
+    
+    for (int i = 0; i < fenceArrary.count; i ++) {
+        
+        NSObject *fenceModel = fenceArrary[i];
+        NSString *latValue = [fenceModel valueForKey:latKey];
+        NSString *lonValue = [fenceModel valueForKey:lonKey];
+        NSString *radiuValue = [fenceModel valueForKey:radiuKey];
+        CLLocationCoordinate2D LL = CLLocationCoordinate2DMake(latValue.doubleValue,lonValue.doubleValue);
+        
+        if (llType == Wgs84) {//坐标转换
+            LL = LL;
+        }else if (llType == Gcj02){
+            LL = [JZLocationConverter gcj02ToWgs84:LL];
+        }else{
+            LL = [JZLocationConverter bd09ToWgs84:LL];
+        }
+        
+        GMSMarker *marker = [[GMSMarker alloc]init];
+        [marker setPosition:LL];
+        [marker setIcon:[UIImage imageNamed:imageArrary[i]]];
+        [marker setMap:_myMap];
+        [_objOverlay addObject:marker];
+        
+        GMSCircle *homeCircle = [GMSCircle circleWithPosition:LL radius:radiuValue.floatValue];
+        [homeCircle setFillColor:coverColor];
+        [homeCircle setStrokeColor:lineColor];
+        [homeCircle setMap:_myMap];
+        [_objOverlay addObject:homeCircle];
+        
+        self.camereBounds = [self.camereBounds includingCoordinate:LL];
+    }
+    
+    [_myMap animateWithCameraUpdate:[GMSCameraUpdate fitBounds:_camereBounds withPadding:30.f]];
 }
 
 - (void)jany_cleanAllFence
