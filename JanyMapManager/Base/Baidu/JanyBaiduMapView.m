@@ -861,7 +861,7 @@ CGFloat myRadiu;
     [self jany_drawFenceWithCoordinate2D:coordinate2D coordinate2DType:llType centreImage:centreImage radiu:radiu lineColor:lineColor coverColor:coverColor success:nil fail:nil];
 }
 
-- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor success:(ReverseSuccess)success fail:(ReverseFail)fail
+- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor success:(ReverseAddressAndCoordinate)success fail:(ReverseFail)fail
 {
     myFenceType = llType;
     myRadiu = radiu;
