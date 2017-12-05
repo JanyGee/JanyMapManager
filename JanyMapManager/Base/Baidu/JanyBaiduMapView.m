@@ -57,6 +57,7 @@
 @property (nonatomic, strong)BMKPinAnnotationView *animationPinAnnotationView;
 @property (nonatomic, strong)FenceCentreAnnotation *fenceAnnotation;
 @property (nonatomic, strong)BMKClusterManager *clusterManager;
+@property (nonatomic, weak)ReverseAddressAndCoordinate geoBack;
 @end
 
 @implementation JanyBaiduMapView
@@ -199,6 +200,7 @@
         [mapView setOverlooking:0];
     }
     
+    [self moveMap:mapView];
 }
 
 - (void)mapView:(BMKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
@@ -850,6 +852,9 @@
     [_myMap removeAnnotations:_myMap.annotations];
 }
 
+CLLocationCoordinate2D myFenceCoordinate;
+Coordinate2DType myFenceType;
+CGFloat myRadiu;
 #pragma mark ============================== 电子围栏 ==============================
 - (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor
 {
@@ -858,6 +863,8 @@
 
 - (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor success:(ReverseSuccess)success fail:(ReverseFail)fail
 {
+    myFenceType = llType;
+    myRadiu = radiu;
     if (llType == Wgs84) {//坐标转换
         coordinate2D = [JZLocationConverter wgs84ToBd09:coordinate2D];
     }else if (llType == Gcj02){
@@ -865,6 +872,8 @@
     }else{
         coordinate2D = coordinate2D;
     }
+    
+    myFenceCoordinate = coordinate2D;
     _fenceStrokerColor = lineColor;
     _fenceFillColor = coverColor;
     _fenceImage = centreImage;
@@ -888,10 +897,55 @@
     if (success && fail) {
         
         [self.geoCodeSearch reverseWithCoordinate2D:coordinate2D success:^(BMKReverseGeoCodeResult *result) {
-            success(result.address);
+            success(coordinate2D,result.address);
         } fail:^(BMKSearchErrorCode error) {
             fail();
         }];
+    }
+    
+    _geoBack = success;
+}
+
+- (void)jany_setRadiu:(CGFloat)radiu
+{
+    NSArray *objArr = _myMap.overlays;
+    for (NSObject *obj in objArr) {
+        
+        if ([obj isKindOfClass:[BMKCircle class]]) {
+            BMKCircle *fenceCircle = (BMKCircle *)obj;
+            [fenceCircle setCircleWithCenterCoordinate:myFenceCoordinate radius:radiu];
+        }
+    }
+}
+
+- (void)moveMap:(BMKMapView *)mapView
+{
+    if (_geoBack) {
+
+        CLLocationCoordinate2D coordinate2D = mapView.centerCoordinate;
+        
+        if (myFenceType == Wgs84) {//坐标转换
+            coordinate2D = [JZLocationConverter wgs84ToBd09:coordinate2D];
+        }else if (myFenceType == Gcj02){
+            coordinate2D = [JZLocationConverter gcj02ToBd09:coordinate2D];
+        }else{
+            coordinate2D = coordinate2D;
+        }
+        
+        myFenceCoordinate = coordinate2D;
+        
+        NSArray *objArr = _myMap.overlays;
+        for (NSObject *obj in objArr) {
+            
+            if ([obj isKindOfClass:[BMKCircle class]]) {
+                BMKCircle *fenceCircle = (BMKCircle *)obj;
+                [fenceCircle setCircleWithCenterCoordinate:coordinate2D radius:myRadiu];
+            }
+        }
+      
+        [self.fenceAnnotation setCoordinate:coordinate2D];
+        [_myMap addAnnotation:_fenceAnnotation];
+        [_myMap setCenterCoordinate:coordinate2D animated:YES];
     }
 }
 
