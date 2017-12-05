@@ -25,6 +25,7 @@ typedef enum : NSUInteger {
     Bd09,//百度地理坐标（BD-09)
 } Coordinate2DType;
 
+typedef void (^ReverseAddressAndCoordinate)(CLLocationCoordinate2D ll,NSString *address);
 typedef void (^ReverseSuccess)(NSString *address);
 typedef void (^ReverseFail)(void);
 
@@ -261,7 +262,7 @@ typedef void (^ReverseFail)(void);
  @param success 返回对应的dic
  @param fail 返回失败的状态
  */
-- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor success:(ReverseSuccess)success fail:(ReverseFail)fail;
+- (void)jany_drawFenceWithCoordinate2D:(CLLocationCoordinate2D)coordinate2D coordinate2DType:(Coordinate2DType)llType centreImage:(UIImage *)centreImage radiu:(CGFloat)radiu lineColor:(UIColor *)lineColor coverColor:(UIColor *)coverColor success:(ReverseAddressAndCoordinate)success fail:(ReverseFail)fail;
 
 
 /**
